@@ -10,8 +10,8 @@ import VCalendar 1.0
 
 ApplicationWindow {
     visible: true
-    width: 1024
-    height: 480
+    width: 640
+    height: 1136
     title: qsTr("Calendar")
 
     Material.theme: Material.Dark
@@ -21,117 +21,63 @@ ApplicationWindow {
         CalendarStyle {
             dayDelegate: Item {
                 id: thisItem
-                readonly property color sameMonthDateTextColor: "#444"
-                readonly property color selectedDateColor: "#403778d0"
-                readonly property color selectedDateTextColor: "white"
+                readonly property color selectedDateColor: "#80DEEA"
                 readonly property color differentMonthDateTextColor: "#bbb"
                 readonly property color invalidDatecolor: "#dddddd"
+                readonly property color textColor: "#80DEEA"
+                readonly property color backgroundColorInvisible: "#EEEEEE"
+                readonly property color backgroundColorVisible: "transparent"
 
-//                Rectangle {
-//                    anchors.fill: parent
-//                    border.color: "transparent"
-//                    color: styleData.date !== undefined && styleData.selected ? selectedDateColor : "transparent"
-//                    anchors.margins: styleData.selected ? -1 : 0
-//                }
-
-
-                Text {
-                    id: dayDelegateText
-                    text: styleData.date.getDate()
-                    anchors {
-                        top: parent.top
-                        bottom: parent.bottom
-                        left: parent.left
-                        margins: 4
-                    }
-                    width: parent.width / 3
-                    font.bold: true
+                Rectangle {
+                    anchors.fill: parent
+                    border.width: 3
+                    border.color: styleData.date !== undefined && styleData.selected ? selectedDateColor : "transparent"
                     color: {
-                        var color = invalidDatecolor;
+                        var color
                         if (styleData.valid) {
-                            // Date is within the valid range.
-                            color = styleData.visibleMonth ? sameMonthDateTextColor : differentMonthDateTextColor;
-                            if (styleData.selected) {
-                                color = selectedDateTextColor;
-                            }
+                            color = styleData.visibleMonth ? backgroundColorVisible : backgroundColorInvisible
                         }
                         color;
+
+                    }
+                    anchors.margins: styleData.selected ? -1 : 0
+
+                    Text {
+                        id: dayDelegateText
+                        text: styleData.date.getDate()
+                        anchors.centerIn: parent
+                        font.pixelSize: 18
+                        color: {
+                            var color = invalidDatecolor;
+                            if (styleData.valid) {
+                                color = styleData.visibleMonth ? textColor : differentMonthDateTextColor;
+                            }
+                            color;
+                        }
                     }
                 }
 
-//                Grid  {
-//                    id: thisGrid
-//                    anchors {
-//                        top: parent.top
-//                        bottom: parent.bottom
-//                        left: dayDelegateText.right
-//                        right: parent.right
-//                    }
+            }
 
-//                    anchors.margins: 4
-//                    columns: 2
-//                    rows: 4
-//                    spacing: 4
-//                    readonly property real itemWidth: (thisGrid.width - (thisGrid.spacing*thisGrid.columns))/thisGrid.columns
-//                    readonly property real itemHeight: (thisGrid.height - (thisGrid.spacing*thisGrid.rows))/thisGrid.rows
-
-//                    function redrawCalendarFlags() {
-//                        var evtList = calendarManager.eventsForDate(styleData.date)
-//                        thisListModel.clear()
-//                        for (var ci = 0; ci < calendarManager.listOfCalendars.length; ci++) {
-//                            for (var ei = 0; ei < evtList.length; ei++) {
-//                                if ( (false === evtList[ei].isCanceled) && (calendarManager.getListItemAt(ci).displayName == evtList[ei].calendarName ) ) {
-//                                    thisListModel.append({"calendarName":calendarManager.getListItemAt(ci).displayName, "calendarColor":calendarManager.getListItemAt(ci).color})
-//                                    break;
-//                                }
-//                            }
-//                        }
-//                    }
-
-//                    Connections {
-//                        target: calendarManager
-//                        onEventsUpdated: {
-//                            thisGrid.redrawCalendarFlags()
-//                        }
-//                        onListOfCalendarsChanged: {
-//                            thisGrid.redrawCalendarFlags()
-//                        }
-//                    }
-
-//                    ListModel {
-//                        id: thisListModel
-//                    }
-
-//                    Repeater {
-//                        id: rep_DayCalendars
-//                        delegate: Item {
-//                            width: thisGrid.itemWidth
-//                            height: thisGrid.itemHeight
-//                            Image {
-//                                id: thisImage
-//                                anchors.fill: parent
-//                                visible: false
-//                                source: "qrc:///resources/images/icon_flag.svg"
-//                            }
-//                            ColorOverlay {
-//                                anchors.fill: parent
-//                                source: thisImage
-//                                color: calendarColor
-//                            }
-//                        }
-//                        model: thisListModel
-//                    }
-//                }
+            navigationBar: Rectangle {
+                id: navigation
+                height: 64
+                color: "#FFCC80"
+                Text {
+                    id: monthDelegateText
+                    text: styleData.title
+                    anchors.centerIn: parent
+                    font.pixelSize: 18
+                }
             }
         }
     }
 
     Calendar {
         id: calendar
-        anchors.fill: parent
-        anchors.margins: 20
+        width: parent.width
+        height: parent.height * 0.5
         frameVisible: true
-        weekNumbersVisible: true
         selectedDate: new Date()
         focus: true
         style: calstyle

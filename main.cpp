@@ -13,6 +13,7 @@ int main(int argc, char *argv[])
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QGuiApplication app(argc, argv);
 
+//    QLocale::setDefault(QLocale(QLocale::English, QLocale::UnitedStates));
     QQuickStyle::setStyle("Material");
 
     CalendarManager calendarManager(QString(app.applicationDirPath()+"/CalendarManager.ini"));
