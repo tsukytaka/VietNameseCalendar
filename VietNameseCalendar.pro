@@ -16,7 +16,8 @@ SOURCES += main.cpp \
     CalendarClient/CalendarEvent.cpp \
     CalendarClient/CalendarManager.cpp \
     CalendarClient/DateUtils.cpp \
-    CalendarClient/SimpleCrypt.cpp
+    CalendarClient/SimpleCrypt.cpp \
+    amlich.cpp
 
 RESOURCES += qml.qrc
 
@@ -33,4 +34,5 @@ HEADERS += \
     CalendarClient/CalendarEvent.h \
     CalendarClient/CalendarManager.h \
     CalendarClient/DateUtils.h \
-    CalendarClient/SimpleCrypt.h
+    CalendarClient/SimpleCrypt.h \
+    amlich.h
