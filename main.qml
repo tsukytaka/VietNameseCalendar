@@ -16,6 +16,10 @@ ApplicationWindow {
 
     Material.theme: Material.Dark
 
+    QLunarDate {
+        id : lDate
+    }
+
     Component {
         id: calstyle
         CalendarStyle {
@@ -31,7 +35,7 @@ ApplicationWindow {
                 Rectangle {
                     anchors.fill: parent
                     border.width: 3
-                    border.color: styleData.date !== undefined && styleData.selected ? selectedDateColor : "transparent"
+                    border.color: styleData.date !== undefined && styleData.selected ? selectedDateColor : "transparent"                    
                     color: {
                         var color
                         if (styleData.valid) {
@@ -47,6 +51,28 @@ ApplicationWindow {
                         text: styleData.date.getDate()
                         anchors.centerIn: parent
                         font.pixelSize: 18
+                        color: {
+                            var color = invalidDatecolor;
+                            if (styleData.valid) {
+                                color = styleData.visibleMonth ? textColor : differentMonthDateTextColor;
+                            }
+                            color;
+                        }
+                    }
+
+                    Text {
+                        id: lunarDayDelegateText
+                        text: {
+//                            var yy,mm,dd
+//                            QLunarDate; lDate; = lunarTools.convertSolar2Lunar(styleData.date, 7);
+                            console.log("dd = " + lDate.day)
+                            return lDate.day
+                        }
+                        anchors.bottom: parent.bottom
+                        anchors.bottomMargin: 5
+                        anchors.right: parent.right
+                        anchors.rightMargin: 5
+                        font.pixelSize: 12
                         color: {
                             var color = invalidDatecolor;
                             if (styleData.valid) {
