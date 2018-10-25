@@ -18,7 +18,11 @@ SOURCES += main.cpp \
     CalendarClient/DateUtils.cpp \
     CalendarClient/SimpleCrypt.cpp \
     lunartools.cpp \
-    qlunardate.cpp
+    qlunardate.cpp \
+    ScheduleScreen/schedulescreenvm.cpp \
+    scheduleitem.cpp \
+    EventsScreen/eventsscreenvm.cpp \
+    event.cpp
 
 RESOURCES += qml.qrc
 
@@ -38,4 +42,10 @@ HEADERS += \
     CalendarClient/SimpleCrypt.h \
     lunartools.h \
     qlunardate.h \
-    afxstd.h
+    afxstd.h \
+    ScheduleScreen/schedulescreenvm.h \
+    scheduleitem.h \
+    EventsScreen/eventsscreenvm.h \
+    event.h
+
+DISTFILES +=

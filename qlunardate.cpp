@@ -34,12 +34,27 @@ int QLunarDate::year() const{
     return y;
 }
 
+void QLunarDate::setYear(int year) {
+    y = year;
+    emit yearChanged();
+}
+
 int QLunarDate::month() const{
     return m;
 }
 
+void QLunarDate::setMonth(int month) {
+    m = month;
+    emit monthChanged();
+}
+
 int QLunarDate::day() const{
     return d;
+}
+
+void QLunarDate::setDay(int day) {
+    d = day;
+    emit dayChanged();
 }
 
 void QLunarDate::setDate(int year, int month, int day){

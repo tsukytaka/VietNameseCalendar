@@ -16,10 +16,6 @@ ApplicationWindow {
 
     Material.theme: Material.Dark
 
-    QLunarDate {
-        id : lDate
-    }
-
     Component {
         id: calstyle
         CalendarStyle {
@@ -63,10 +59,11 @@ ApplicationWindow {
                     Text {
                         id: lunarDayDelegateText
                         text: {
-//                            var yy,mm,dd
-//                            QLunarDate; lDate; = lunarTools.convertSolar2Lunar(styleData.date, 7);
-                            console.log("dd = " + lDate.day)
-                            return lDate.day
+                            var lunarDate = LunarTools.convertSolar2Lunar(styleData.date, 7)
+                            if (lunarDate.day === 1) {
+                                return lunarDate.day + "/" + lunarDate.month
+                            }
+                            return lunarDate.day
                         }
                         anchors.bottom: parent.bottom
                         anchors.bottomMargin: 5
@@ -113,5 +110,11 @@ ApplicationWindow {
         onVisibleYearChanged: {
             calendarManager.date = new Date(calendar.visibleYear, calendar.visibleMonth, 1)
         }
+    }
+
+    Loader {
+        id: viewArea
+        width: parent.width
+        height: parent.height * 0.5
     }
 }

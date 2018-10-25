@@ -21,10 +21,10 @@ int main(int argc, char *argv[])
     QQuickStyle::setStyle("Material");
 
     CalendarManager calendarManager(QString(app.applicationDirPath()+"/CalendarManager.ini"));
-    LunarTools lunarTools;
 
-    qmlRegisterUncreatableType<QLunarDate>("VCalendar", 1, 0, "QLunarDate", "QLunarDate is uncreatable");
-    qmlRegisterUncreatableType<LunarTools>("VCalendar", 1, 0, "LunarTools", "LunarTools is uncreatable");
+    qRegisterMetaType<QLunarDate*>();
+//    qmlRegisterType<QLunarDate>("VCalendar", 1, 0, "QLunarDate");
+    qmlRegisterSingletonType<LunarTools>("VCalendar", 1, 0, "LunarTools", LunarTools::qobject_lunartools_provider);
     qmlRegisterUncreatableType<CalendarClient>("VCalendar", 1, 0, "CalendarClient", "CalendarClient is uncreatable");
     qmlRegisterUncreatableType<CalendarClient_CalDAV>("VCalendar", 1, 0, "CalendarClient_CalDAV", "CalendarClient_CalDAV is uncreatable");
     qmlRegisterUncreatableType<CalendarClient_ICS>("VCalendar", 1, 0, "CalendarClient_ICS", "CalendarClient_ICS is uncreatable");
@@ -43,7 +43,6 @@ int main(int argc, char *argv[])
 
     QQmlApplicationEngine engine;
     engine.rootContext()->setContextProperty("calendarManager", &calendarManager);
-    engine.rootContext()->setContextProperty("lunarTools", &lunarTools);
     engine.load(QUrl(QLatin1String("qrc:/main.qml")));
 
     return app.exec();

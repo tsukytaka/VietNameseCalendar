@@ -1,5 +1,7 @@
 <RCC>
     <qresource prefix="/">
         <file>main.qml</file>
+        <file>ScheduleScreen/ScheduleScreen.qml</file>
+        <file>EventsScreen/EventsScreen.qml</file>
     </qresource>
 </RCC>

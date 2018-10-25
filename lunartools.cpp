@@ -2,9 +2,27 @@
 #include <QtMath>
 #include <QDebug>
 
+LunarTools* LunarTools::instance = NULL;
+
 LunarTools::LunarTools(QObject *parent) : QObject(parent)
 {
 
+}
+
+LunarTools* LunarTools::getInstance() {
+    if (!instance) {
+        instance = new LunarTools();
+    }
+    return instance;
+}
+
+// First, define the singleton type provider function (callback).
+QObject *LunarTools::qobject_lunartools_provider(QQmlEngine *engine, QJSEngine *scriptEngine){
+    Q_UNUSED(engine)
+    Q_UNUSED(scriptEngine)
+
+    LunarTools *ins = getInstance();
+    return ins;
 }
 
 qint64 LunarTools::getMonthOfLunarByJd(qint64 jd) {
@@ -83,7 +101,7 @@ qint32 LunarTools::getLeapMonthOffset(qint32 a11, qint32 timeZone){
     return i-1;
 }
 
-QLunarDate LunarTools::convertSolar2Lunar(QDate date, qint32 timeZone){
+QLunarDate *LunarTools::convertSolar2Lunar(QDate date, qint32 timeZone){
     qint32 lunarYear, lunarMonth, lunarDay;
     qint32 yy, mm, dd;
     yy = date.year();
@@ -125,7 +143,7 @@ QLunarDate LunarTools::convertSolar2Lunar(QDate date, qint32 timeZone){
         lunarYear -= 1;
     }
 
-    QLunarDate lunarDate(lunarYear, lunarMonth, lunarDay);
+    QLunarDate *lunarDate = new QLunarDate(lunarYear, lunarMonth, lunarDay);
     return lunarDate;
 }
 
