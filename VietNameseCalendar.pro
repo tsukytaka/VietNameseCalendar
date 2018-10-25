@@ -37,4 +37,5 @@ HEADERS += \
     CalendarClient/DateUtils.h \
     CalendarClient/SimpleCrypt.h \
     lunartools.h \
-    qlunardate.h
+    qlunardate.h \
+    afxstd.h

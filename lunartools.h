@@ -1,9 +1,6 @@
 #ifndef LUNAR_TOOLS_H
 #define LUNAR_TOOLS_H
-
-#define PI 3.141592653589793
-#define TIME_ZONE 7
-
+#include "afxstd.h"
 #include <QObject>
 #include <QDate>
 #include "qlunardate.h"
