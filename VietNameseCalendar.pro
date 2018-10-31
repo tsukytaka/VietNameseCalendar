@@ -1,4 +1,4 @@
-QT += qml quick quickcontrols2 xml xmlpatterns
+QT += qml quick quickcontrols2 xml xmlpatterns websockets
 
 CONFIG += c++11
 
@@ -22,7 +22,9 @@ SOURCES += main.cpp \
     ScheduleScreen/schedulescreenvm.cpp \
     scheduleitem.cpp \
     EventsScreen/eventsscreenvm.cpp \
-    event.cpp
+    event.cpp \
+    weblistenerserver.cpp \
+    settingmodule.cpp
 
 RESOURCES += qml.qrc
 
@@ -46,6 +48,8 @@ HEADERS += \
     ScheduleScreen/schedulescreenvm.h \
     scheduleitem.h \
     EventsScreen/eventsscreenvm.h \
-    event.h
+    event.h \
+    weblistenerserver.h \
+    settingmodule.h
 
 DISTFILES +=
