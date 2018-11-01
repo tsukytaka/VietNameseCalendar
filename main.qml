@@ -105,10 +105,10 @@ ApplicationWindow {
         focus: true
         style: calstyle
         onVisibleMonthChanged: {
-            calendarManager.date = new Date(calendar.visibleYear, calendar.visibleMonth, 1)
+//            calendarManager.date = new Date(calendar.visibleYear, calendar.visibleMonth, 1)
         }
         onVisibleYearChanged: {
-            calendarManager.date = new Date(calendar.visibleYear, calendar.visibleMonth, 1)
+//            calendarManager.date = new Date(calendar.visibleYear, calendar.visibleMonth, 1)
         }
     }
 

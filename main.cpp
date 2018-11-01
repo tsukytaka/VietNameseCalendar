@@ -6,6 +6,10 @@
 
 #include "lunartools.h"
 #include "qlunardate.h"
+#include "settingmodule.h"
+#include "weblistenerserver.h"
+
+
 
 int main(int argc, char *argv[])
 {
@@ -18,6 +22,10 @@ int main(int argc, char *argv[])
     qRegisterMetaType<QLunarDate*>();
 //    qmlRegisterType<QLunarDate>("VCalendar", 1, 0, "QLunarDate");
     qmlRegisterSingletonType<LunarTools>("VCalendar", 1, 0, "LunarTools", LunarTools::qobject_lunartools_provider);
+
+    static WebListenerServer receiverOAuth(SettingModule::getInstance()->getSettingObject()->value(PORT_KEY, PORT_DEFAULT).toInt());
+
+
 
 //    /*
 //     * Test

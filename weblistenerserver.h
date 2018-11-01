@@ -8,6 +8,9 @@
 #include <QWebSocketServer>
 #include <QWebSocket>
 
+#define CERT_FILE_NAME "./cert.pem"
+#define KEY_FILE_NAME "./key.pem"
+
 class WebListenerServer : public QObject
 {
     Q_OBJECT

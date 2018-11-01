@@ -7,12 +7,12 @@
 
 WebListenerServer::WebListenerServer(quint16 port, QObject *parent) : QObject(parent)
 {
-    m_pWebSocketServer = new QWebSocketServer(QStringLiteral("SSL Echo Server"),
+    m_pWebSocketServer = new QWebSocketServer(QStringLiteral("Secure Websocket Server"),
                                                   QWebSocketServer::SecureMode,
                                                   this);
     QSslConfiguration sslConfiguration;
-    QFile certFile(QStringLiteral(":/localhost.cert"));
-    QFile keyFile(QStringLiteral(":/localhost.key"));
+    QFile certFile(QStringLiteral(CERT_FILE_NAME));
+    QFile keyFile(QStringLiteral(KEY_FILE_NAME));
     certFile.open(QIODevice::ReadOnly);
     keyFile.open(QIODevice::ReadOnly);
     QSslCertificate certificate(&certFile, QSsl::Pem);
@@ -22,12 +22,12 @@ WebListenerServer::WebListenerServer(quint16 port, QObject *parent) : QObject(pa
     sslConfiguration.setPeerVerifyMode(QSslSocket::VerifyNone);
     sslConfiguration.setLocalCertificate(certificate);
     sslConfiguration.setPrivateKey(sslKey);
-    sslConfiguration.setProtocol(QSsl::TlsV1SslV3);
+    sslConfiguration.setProtocol(QSsl::TlsV1_0OrLater);
     m_pWebSocketServer->setSslConfiguration(sslConfiguration);
 
     if (m_pWebSocketServer->listen(QHostAddress::Any, port))
     {
-        qDebug() << "SSL Echo Server listening on port" << port;
+        qDebug() << "Secure WebSocket Server listening on port" << port;
         connect(m_pWebSocketServer, &QWebSocketServer::newConnection,
                 this, &WebListenerServer::onNewConnection);
         connect(m_pWebSocketServer, &QWebSocketServer::sslErrors,
