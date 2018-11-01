@@ -22,7 +22,7 @@ WebListenerServer::WebListenerServer(quint16 port, QObject *parent) : QObject(pa
     sslConfiguration.setPeerVerifyMode(QSslSocket::VerifyNone);
     sslConfiguration.setLocalCertificate(certificate);
     sslConfiguration.setPrivateKey(sslKey);
-    sslConfiguration.setProtocol(QSsl::TlsV1_0OrLater);
+    sslConfiguration.setProtocol(QSsl::TlsV1SslV3);
     m_pWebSocketServer->setSslConfiguration(sslConfiguration);
 
     if (m_pWebSocketServer->listen(QHostAddress::Any, port))
@@ -32,6 +32,8 @@ WebListenerServer::WebListenerServer(quint16 port, QObject *parent) : QObject(pa
                 this, &WebListenerServer::onNewConnection);
         connect(m_pWebSocketServer, &QWebSocketServer::sslErrors,
                 this, &WebListenerServer::onSslErrors);
+        connect(m_pWebSocketServer, &QWebSocketServer::acceptError,
+                this, &WebListenerServer::onAcceptErrors);
     }
 
 }
@@ -58,6 +60,7 @@ void WebListenerServer::onNewConnection()
 
 void WebListenerServer::processTextMessage(QString message)
 {
+    qInfo() << "OAuth2 message: " << message;
     QWebSocket *pClient = qobject_cast<QWebSocket *>(sender());
     if (pClient)
     {
@@ -88,4 +91,11 @@ void WebListenerServer::socketDisconnected()
 void WebListenerServer::onSslErrors(const QList<QSslError> &)
 {
     qDebug() << "Ssl errors occurred";
+}
+
+
+void WebListenerServer::onAcceptErrors(QAbstractSocket::SocketError socketError)
+{
+    qDebug() << "Socket errors occurred: " << socketError;
+
 }

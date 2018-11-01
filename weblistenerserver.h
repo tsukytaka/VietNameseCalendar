@@ -24,6 +24,7 @@ private Q_SLOTS:
     void processBinaryMessage(QByteArray message);
     void socketDisconnected();
     void onSslErrors(const QList<QSslError> &errors);
+    void onAcceptErrors(QAbstractSocket::SocketError socketError);
 
 signals:
 
