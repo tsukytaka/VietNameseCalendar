@@ -6,7 +6,7 @@
 
 #define WEB_SECTION "WEB-SECTION"
 #define PORT_KEY    "Port"
-#define PORT_DEFAULT "9111"
+#define PORT_DEFAULT "8080"
 
 class SettingModule : public QObject
 {

@@ -34,6 +34,7 @@ WebListenerServer::WebListenerServer(quint16 port, QObject *parent) : QObject(pa
                 this, &WebListenerServer::onSslErrors);
         connect(m_pWebSocketServer, &QWebSocketServer::acceptError,
                 this, &WebListenerServer::onAcceptErrors);
+        qInfo() << m_pWebSocketServer->serverUrl();
     }
 
 }

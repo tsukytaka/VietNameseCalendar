@@ -10,7 +10,8 @@ SOURCES += main.cpp \
     EventsScreen/eventsscreenvm.cpp \
     event.cpp \
     weblistenerserver.cpp \
-    settingmodule.cpp
+    settingmodule.cpp \
+    httplistener.cpp
 
 RESOURCES += qml.qrc
 
@@ -29,6 +30,7 @@ HEADERS += \
     EventsScreen/eventsscreenvm.h \
     event.h \
     weblistenerserver.h \
-    settingmodule.h
+    settingmodule.h \
+    httplistener.h
 
 DISTFILES +=
