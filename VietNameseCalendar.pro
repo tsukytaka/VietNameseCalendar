@@ -11,7 +11,12 @@ SOURCES += main.cpp \
     event.cpp \
     weblistenerserver.cpp \
     settingmodule.cpp \
-    httplistener.cpp
+    httpserver/httpconnectionhandler.cpp \
+    httpserver/httpconnectionhandlerpool.cpp \
+    httpserver/httprequesthandler.cpp \
+    httpserver/httprequest.cpp \
+    httpserver/httpresponse.cpp \
+    httpserver/httplistener.cpp
 
 RESOURCES += qml.qrc
 
@@ -31,6 +36,12 @@ HEADERS += \
     event.h \
     weblistenerserver.h \
     settingmodule.h \
-    httplistener.h
+    httpserver/httpconnectionhandler.h \
+    httpserver/httpconnectionhandlerpool.h \
+    httpserver/httprequesthandler.h \
+    httpserver/httprequest.h \
+    httpserver/httpresponse.h \
+    httpserver/httplistener.h
 
-DISTFILES +=
+DISTFILES += \
+    config/VietNameseCalendar.cfg

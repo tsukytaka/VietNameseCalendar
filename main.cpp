@@ -3,13 +3,18 @@
 #include <QQuickStyle>
 #include <QQmlContext>
 #include <QDebug>
+#include <QStandardPaths>
+#include <QDir>
 
 #include "lunartools.h"
 #include "qlunardate.h"
 #include "settingmodule.h"
-#include "weblistenerserver.h"
+//#include "weblistenerserver.h"
+#include "httpserver/httplistener.h"
 
+#define LISTENER_GROUP_NAME "listener"
 
+HttpListener *httpListener;
 
 int main(int argc, char *argv[])
 {
@@ -23,9 +28,25 @@ int main(int argc, char *argv[])
 //    qmlRegisterType<QLunarDate>("VCalendar", 1, 0, "QLunarDate");
     qmlRegisterSingletonType<LunarTools>("VCalendar", 1, 0, "LunarTools", LunarTools::qobject_lunartools_provider);
 
-    static WebListenerServer receiverOAuth(SettingModule::getInstance()->getSettingObject()->value(PORT_KEY, PORT_DEFAULT).toInt());
+//    static WebListenerServer receiverOAuth(SettingModule::getInstance()->getSettingObject()->value(PORT_KEY, PORT_DEFAULT).toInt());
+
+//    QSettings *appSetting = new QSettings()
+//    HttpListener
 
 
+     QString path =  QStandardPaths::writableLocation(QStandardPaths::DataLocation);
+     QDir dir(path);
+     if (!dir.exists()){
+       dir.mkdir(path);
+     }
+
+     qInfo() << "path = " << path;
+     QString pathConfigFile = path + '/' + QCoreApplication::applicationName() + '.cfg';
+     QSettings* listenerSettings = new QSettings(pathConfigFile, QSettings::IniFormat, &app);
+     listenerSettings->sync();
+     listenerSettings->beginGroup(LISTENER_GROUP_NAME);
+
+     httpListener = new HttpListener(listenerSettings, new HttpRequestHandler(&app), &app);
 
 //    /*
 //     * Test

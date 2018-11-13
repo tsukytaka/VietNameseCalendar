@@ -3,12 +3,15 @@
 #include <QTcpServer>
 #include <QSettings>
 
+#include "httprequesthandler.h"
+#include "httpconnectionhandlerpool.h"
+
 class HttpListener : public QTcpServer
 {
     Q_OBJECT
     Q_DISABLE_COPY(HttpListener)
 public:
-    HttpListener(QSettings* settings, QObject* parent = NULL);
+    HttpListener(QSettings* settings, HttpRequestHandler *requestHandler, QObject* parent = NULL);
 
     virtual ~HttpListener();
 
@@ -23,19 +26,19 @@ private:
     QSettings* settings;
 
 //    /** Point to the reuqest handler which processes all HTTP requests */
-//    HttpRequestHandler* requestHandler;
+    HttpRequestHandler* requestHandler;
 
 //    /** Pool of connection handlers */
-//    HttpConnectionHandlerPool* pool;
+    HttpConnectionHandlerPool* pool;
 
 signals:
 
-//    /**
-//      Sent to the connection handler to process a new incoming connection.
-//      @param socketDescriptor references the accepted connection.
-//    */
+    /**
+      Sent to the connection handler to process a new incoming connection.
+      @param socketDescriptor references the accepted connection.
+    */
 
-//    void handleConnection(tSocketDescriptor socketDescriptor);
+    void handleConnection(qintptr socketDescriptor);
 };
 
 #endif // HTTPLISTENER_H

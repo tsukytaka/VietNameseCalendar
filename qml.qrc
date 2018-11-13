@@ -3,5 +3,6 @@
         <file>main.qml</file>
         <file>ScheduleScreen/ScheduleScreen.qml</file>
         <file>EventsScreen/EventsScreen.qml</file>
+        <file>config/VietNameseCalendar.cfg</file>
     </qresource>
 </RCC>
