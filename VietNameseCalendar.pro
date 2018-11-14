@@ -16,7 +16,8 @@ SOURCES += main.cpp \
     httpserver/httprequesthandler.cpp \
     httpserver/httprequest.cpp \
     httpserver/httpresponse.cpp \
-    httpserver/httplistener.cpp
+    httpserver/httplistener.cpp \
+    googlecalendar/oauth2.cpp
 
 RESOURCES += qml.qrc
 
@@ -41,7 +42,8 @@ HEADERS += \
     httpserver/httprequesthandler.h \
     httpserver/httprequest.h \
     httpserver/httpresponse.h \
-    httpserver/httplistener.h
+    httpserver/httplistener.h \
+    googlecalendar/oauth2.h
 
 DISTFILES += \
     config/VietNameseCalendar.cfg

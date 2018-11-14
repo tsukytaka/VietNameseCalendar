@@ -11,8 +11,10 @@
 #include "settingmodule.h"
 //#include "weblistenerserver.h"
 #include "httpserver/httplistener.h"
+#include "googlecalendar/oauth2.h"
 
 #define LISTENER_GROUP_NAME "listener"
+#define GOOGLE_GROUP_NAME "google"
 
 HttpListener *httpListener;
 
@@ -30,10 +32,6 @@ int main(int argc, char *argv[])
 
 //    static WebListenerServer receiverOAuth(SettingModule::getInstance()->getSettingObject()->value(PORT_KEY, PORT_DEFAULT).toInt());
 
-//    QSettings *appSetting = new QSettings()
-//    HttpListener
-
-
      QString path =  QStandardPaths::writableLocation(QStandardPaths::DataLocation);
      QDir dir(path);
      if (!dir.exists()){
@@ -43,15 +41,20 @@ int main(int argc, char *argv[])
      qInfo() << "path = " << path;
      QString pathConfigFile = path + '/' + QCoreApplication::applicationName() + '.cfg';
      QSettings* listenerSettings = new QSettings(pathConfigFile, QSettings::IniFormat, &app);
-     listenerSettings->sync();
      listenerSettings->beginGroup(LISTENER_GROUP_NAME);
 
      httpListener = new HttpListener(listenerSettings, new HttpRequestHandler(&app), &app);
 
+
+     QSettings* googleSettings = new QSettings(pathConfigFile, QSettings::IniFormat, &app);
+     googleSettings->beginGroup(GOOGLE_GROUP_NAME);
+
+     OAuth2* m_pOauth2 = new OAuth2(googleSettings);
+     m_pOauth2->startLogin(true);
+
 //    /*
 //     * Test
 //    */
-
 //    qint32 yy,mm,dd;
 //    Lunar::convertSolar2Lunar(QDate::currentDate(), 7, dd, mm, yy);
 
