@@ -4,5 +4,6 @@
         <file>ScheduleScreen/ScheduleScreen.qml</file>
         <file>EventsScreen/EventsScreen.qml</file>
         <file>config/VietNameseCalendar.cfg</file>
+        <file>otherfile/client_secret_multi_platform.json</file>
     </qresource>
 </RCC>

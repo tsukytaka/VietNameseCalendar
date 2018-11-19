@@ -9,14 +9,9 @@
 #include "lunartools.h"
 #include "qlunardate.h"
 #include "settingmodule.h"
-//#include "weblistenerserver.h"
-#include "httpserver/httplistener.h"
 #include "googlecalendar/oauth2.h"
 
-#define LISTENER_GROUP_NAME "listener"
-#define GOOGLE_GROUP_NAME "google"
-
-HttpListener *httpListener;
+QSettings* appSettings;
 
 int main(int argc, char *argv[])
 {
@@ -27,40 +22,30 @@ int main(int argc, char *argv[])
     QQuickStyle::setStyle("Material");
 
     qRegisterMetaType<QLunarDate*>();
-//    qmlRegisterType<QLunarDate>("VCalendar", 1, 0, "QLunarDate");
     qmlRegisterSingletonType<LunarTools>("VCalendar", 1, 0, "LunarTools", LunarTools::qobject_lunartools_provider);
 
-//    static WebListenerServer receiverOAuth(SettingModule::getInstance()->getSettingObject()->value(PORT_KEY, PORT_DEFAULT).toInt());
+    QString path =  QStandardPaths::writableLocation(QStandardPaths::DataLocation);
+    QDir dir(path);
+    if (!dir.exists()){
+        dir.mkdir(path);
+    }
+    qInfo() << "path = " << path;
+    QString pathConfigFile = path + '/' + QCoreApplication::applicationName() + '.cfg';
+    appSettings = new QSettings(pathConfigFile, QSettings::IniFormat, &app);
 
-     QString path =  QStandardPaths::writableLocation(QStandardPaths::DataLocation);
-     QDir dir(path);
-     if (!dir.exists()){
-       dir.mkdir(path);
-     }
-
-     qInfo() << "path = " << path;
-     QString pathConfigFile = path + '/' + QCoreApplication::applicationName() + '.cfg';
-     QSettings* listenerSettings = new QSettings(pathConfigFile, QSettings::IniFormat, &app);
-     listenerSettings->beginGroup(LISTENER_GROUP_NAME);
-
-     httpListener = new HttpListener(listenerSettings, new HttpRequestHandler(&app), &app);
-
-
-     QSettings* googleSettings = new QSettings(pathConfigFile, QSettings::IniFormat, &app);
-     googleSettings->beginGroup(GOOGLE_GROUP_NAME);
-
-     OAuth2* m_pOauth2 = new OAuth2(googleSettings);
-     m_pOauth2->startLogin(true);
 
 //    /*
-//     * Test
+//     * Test OAuth2
+//     */
+//    OAuth2* m_pOauth2 = new OAuth2(appSettings);
+//    m_pOauth2->startLogin("https://www.googleapis.com/auth/calendar");
+
+//    /*
+//     * Test convert lunar date
 //    */
 //    qint32 yy,mm,dd;
 //    Lunar::convertSolar2Lunar(QDate::currentDate(), 7, dd, mm, yy);
-
 //    qInfo() << yy << "/" << mm << "/" << dd;
-
-
 
     QQmlApplicationEngine engine;
     engine.load(QUrl(QLatin1String("qrc:/main.qml")));

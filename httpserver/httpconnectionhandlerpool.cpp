@@ -89,8 +89,8 @@ void HttpConnectionHandlerPool::cleanup()
 void HttpConnectionHandlerPool::loadSslConfig()
 {
     // If certificate and key files are configured, then load them
-    QString sslKeyFileName=settings->value("sslKeyFile","./key.pem").toString();
-    QString sslCertFileName=settings->value("sslCertFile","./cert.pem").toString();
+    QString sslKeyFileName=settings->value("sslKeyFile","").toString();
+    QString sslCertFileName=settings->value("sslCertFile","").toString();
     if (!sslKeyFileName.isEmpty() && !sslCertFileName.isEmpty())
     {
         #ifdef QT_NO_OPENSSL

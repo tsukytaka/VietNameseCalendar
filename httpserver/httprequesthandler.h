@@ -27,6 +27,9 @@ public:
     */
     void service(HttpRequest& request, HttpResponse& response);
 
+signals:
+    void receivedAuthCode(QString authCode);
+
 };
 
 #endif // HTTPREQUESTHANDLER_H

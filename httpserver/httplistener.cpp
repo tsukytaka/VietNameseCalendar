@@ -16,6 +16,12 @@ HttpListener::HttpListener(QSettings* settings, HttpRequestHandler* requestHandl
 HttpListener::~HttpListener()
 {
     close();
+//    delete settings;
+    delete requestHandler;
+    if (pool)
+    {
+        delete pool;
+    }
     qDebug("HttpListener: destroyed");
 }
 
@@ -27,7 +33,7 @@ void HttpListener::listen()
         pool=new HttpConnectionHandlerPool(settings, requestHandler);
     }
     QString host = settings->value("host").toString();
-    int port = settings->value("port", 8080).toInt();
+    int port = settings->value("port", 80).toInt();
     QTcpServer::listen(host.isEmpty() ? QHostAddress::Any : QHostAddress(host), port);
     if (!isListening())
     {

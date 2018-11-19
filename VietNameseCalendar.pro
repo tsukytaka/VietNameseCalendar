@@ -1,4 +1,4 @@
-QT += qml quick quickcontrols2 xml xmlpatterns websockets
+QT += qml quick quickcontrols2 xml xmlpatterns websockets network
 
 CONFIG += c++11
 
@@ -17,7 +17,10 @@ SOURCES += main.cpp \
     httpserver/httprequest.cpp \
     httpserver/httpresponse.cpp \
     httpserver/httplistener.cpp \
-    googlecalendar/oauth2.cpp
+    googlecalendar/oauth2.cpp \
+    ManageAcc/accountmanager.cpp \
+    ManageAcc/account.cpp \
+    ManageAcc/googleaccount.cpp
 
 RESOURCES += qml.qrc
 
@@ -43,7 +46,10 @@ HEADERS += \
     httpserver/httprequest.h \
     httpserver/httpresponse.h \
     httpserver/httplistener.h \
-    googlecalendar/oauth2.h
+    googlecalendar/oauth2.h \
+    ManageAcc/accountmanager.h \
+    ManageAcc/account.h \
+    ManageAcc/googleaccount.h
 
 DISTFILES += \
     config/VietNameseCalendar.cfg
