@@ -9,9 +9,10 @@
 #include "lunartools.h"
 #include "qlunardate.h"
 #include "settingmodule.h"
-#include "googlecalendar/oauth2.h"
+#include "ManageAcc/accountmanager.h"
 
 QSettings* appSettings;
+QString dataDir;
 
 int main(int argc, char *argv[])
 {
@@ -24,15 +25,17 @@ int main(int argc, char *argv[])
     qRegisterMetaType<QLunarDate*>();
     qmlRegisterSingletonType<LunarTools>("VCalendar", 1, 0, "LunarTools", LunarTools::qobject_lunartools_provider);
 
-    QString path =  QStandardPaths::writableLocation(QStandardPaths::DataLocation);
-    QDir dir(path);
+    dataDir =  QStandardPaths::writableLocation(QStandardPaths::DataLocation);
+    QDir dir(dataDir);
     if (!dir.exists()){
-        dir.mkdir(path);
+        dir.mkdir(dataDir);
     }
-    qInfo() << "path = " << path;
-    QString pathConfigFile = path + '/' + QCoreApplication::applicationName() + '.cfg';
+    qInfo() << "dataDir = " << dataDir;
+    QString pathConfigFile = dataDir + QDir::separator() + QCoreApplication::applicationName().append('.cfg');
     appSettings = new QSettings(pathConfigFile, QSettings::IniFormat, &app);
 
+//    AccountManager accMng;
+//    accMng.addAccount(Account::TYPE_ACC::GoogleType);
 
 //    /*
 //     * Test OAuth2

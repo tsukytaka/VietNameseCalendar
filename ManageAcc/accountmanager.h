@@ -1,16 +1,14 @@
 #ifndef ACCOUNTMANAGER_H
 #define ACCOUNTMANAGER_H
 
-#include <QObject>
 #include "account.h"
 #include "googleaccount.h"
 
-class AccountManager : public QObject
+class AccountManager
 {
-    Q_OBJECT
-public:
-    explicit AccountManager(QObject *parent = 0);
 
+public:
+    AccountManager* getInstance();
     void addAccount(Account::TYPE_ACC type);
     void deleteAccount(QString name);
 
@@ -19,6 +17,10 @@ signals:
 public slots:
 
 private:
+    AccountManager();
+
+private:
+    static AccountManager *instance;
     QList<Account*> listAccount;
 };
 

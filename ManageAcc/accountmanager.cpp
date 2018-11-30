@@ -1,8 +1,19 @@
 #include "accountmanager.h"
 
-AccountManager::AccountManager(QObject *parent) : QObject(parent)
+AccountManager *AccountManager::instance = NULL;
+
+AccountManager::AccountManager()
 {
 
+}
+
+AccountManager* AccountManager::getInstance()
+{
+    if (!instance)
+    {
+        instance = new AccountManager();
+    }
+    return instance;
 }
 
 void AccountManager::addAccount(Account::TYPE_ACC type)
