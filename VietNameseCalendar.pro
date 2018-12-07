@@ -21,7 +21,9 @@ SOURCES += main.cpp \
     ManageAcc/accountmanager.cpp \
     ManageAcc/account.cpp \
     ManageAcc/googleaccount.cpp \
-    DatabaseManager/databasemanager.cpp
+    DatabaseManager/databasemanager.cpp \
+    SystemMenu/systemmenuvm.cpp \
+    MonthScreen/monthviewvm.cpp
 
 RESOURCES += qml.qrc
 
@@ -51,7 +53,9 @@ HEADERS += \
     ManageAcc/accountmanager.h \
     ManageAcc/account.h \
     ManageAcc/googleaccount.h \
-    DatabaseManager/databasemanager.h
+    DatabaseManager/databasemanager.h \
+    SystemMenu/systemmenuvm.h \
+    MonthScreen/monthviewvm.h
 
 DISTFILES += \
     config/VietNameseCalendar.cfg

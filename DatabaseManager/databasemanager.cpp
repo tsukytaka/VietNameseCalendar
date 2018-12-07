@@ -28,7 +28,8 @@ DatabaseManager* DatabaseManager::getInstance()
     return instance;
 }
 
-void DatabaseManager :: prepareDatabase(QString pathDB){
+void DatabaseManager :: prepareDatabase(QString pathDB)
+{
     QFile fileSql(pathDB);
     if (!fileSql.exists()) {
         db.open();

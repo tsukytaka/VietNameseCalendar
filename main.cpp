@@ -34,9 +34,6 @@ int main(int argc, char *argv[])
     QString pathConfigFile = dataDir + QDir::separator() + QCoreApplication::applicationName().append('.cfg');
     appSettings = new QSettings(pathConfigFile, QSettings::IniFormat, &app);
 
-//    AccountManager accMng;
-//    accMng.addAccount(Account::TYPE_ACC::GoogleType);
-
 //    /*
 //     * Test OAuth2
 //     */

@@ -5,5 +5,8 @@
         <file>EventsScreen/EventsScreen.qml</file>
         <file>config/VietNameseCalendar.cfg</file>
         <file>otherfile/client_secret_multi_platform.json</file>
+        <file>SystemMenu/SystemMenu.qml</file>
+        <file>MonthScreen/MonthView.qml</file>
+        <file>TopBar.qml</file>
     </qresource>
 </RCC>
