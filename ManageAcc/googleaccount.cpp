@@ -1,4 +1,5 @@
 #include "googleaccount.h"
+#include "googlecalendar/googlecalendartool.h"
 
 extern QSettings* appSettings;
 
@@ -23,5 +24,10 @@ void GoogleAccount::Logout()
 
 void GoogleAccount::Synchronize()
 {
-    
+    QList<Calendar> listCalendar;
+    GoogleCalendarTool::getInstance()->getCalendars(m_pOauth2->accessToken(), listCalendar);
+//    qDebug() << "Number calendar = " << listCalendar.count();
+//    for (int i = 0; i < listCalendar.count(); i++) {
+//        qDebug() << listCalendar[i].calendarId;
+//    }
 }

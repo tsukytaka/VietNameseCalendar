@@ -1,14 +1,8 @@
 #ifndef OAUTH2_H
 #define OAUTH2_H
 
-#include <QString>
-#include <QObject>
-#include <QSettings>
-#include <QNetworkReply>
-#include <QSemaphore>
-
+#include "afxstd.h"
 #include "httpserver/httplistener.h"
-//#include "UtilitiesTool/httprequesttool.h"
 #include "errorcode.h"
 
 #define LISTENER_GROUP_NAME "HTTP_LISTENER"

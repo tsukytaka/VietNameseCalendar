@@ -34,11 +34,11 @@ int main(int argc, char *argv[])
     QString pathConfigFile = dataDir + QDir::separator() + QCoreApplication::applicationName().append('.cfg');
     appSettings = new QSettings(pathConfigFile, QSettings::IniFormat, &app);
 
-    /*
-     * Test OAuth2
-     */
-    OAuth2* m_pOauth2 = new OAuth2(appSettings);
-    m_pOauth2->startLogin("https://www.googleapis.com/auth/calendar");
+//    /*
+//     * Test OAuth2
+//     */
+//    OAuth2* m_pOauth2 = new OAuth2(appSettings);
+//    m_pOauth2->startLogin("https://www.googleapis.com/auth/calendar");
 
 //    /*
 //     * Test convert lunar date
@@ -46,6 +46,16 @@ int main(int argc, char *argv[])
 //    qint32 yy,mm,dd;
 //    Lunar::convertSolar2Lunar(QDate::currentDate(), 7, dd, mm, yy);
 //    qInfo() << yy << "/" << mm << "/" << dd;
+
+    /*
+     * Test GoogleAcc
+     *
+     */
+    GoogleAccount googleAcc;
+    googleAcc.Login();
+    googleAcc.Synchronize();
+
+
 
     QQmlApplicationEngine engine;
     engine.load(QUrl(QLatin1String("qrc:/main.qml")));

@@ -10,6 +10,7 @@ class Calendar
 public:
     Calendar();
 
+
 private:
     QString calendarId;
     QList<Event> events;

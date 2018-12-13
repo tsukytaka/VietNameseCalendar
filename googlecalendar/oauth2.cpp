@@ -1,12 +1,5 @@
 #include "oauth2.h"
-#include <QDebug>
-#include <QSettings>
-#include <QUrl>
-#include <QDesktopServices>
-#include <QJsonObject>
-#include <QJsonParseError>
-#include <QFile>
-#include <QEventLoop>
+#include "afxstd.h"
 
 
 OAuth2::OAuth2(QSettings *settings, QObject *parent): QObject(parent)
