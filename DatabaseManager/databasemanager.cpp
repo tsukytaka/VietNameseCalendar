@@ -5,7 +5,7 @@
 
 extern QString dataDir;
 
-DatabaseManager* DatabaseManager::instance = NULL;
+DatabaseManager* DatabaseManager::instance = 0;
 
 DatabaseManager::DatabaseManager()
 {

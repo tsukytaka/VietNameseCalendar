@@ -5,9 +5,11 @@
 #include <QObject>
 #include <QSettings>
 #include <QNetworkReply>
+#include <QSemaphore>
 
 #include "httpserver/httplistener.h"
 //#include "UtilitiesTool/httprequesttool.h"
+#include "errorcode.h"
 
 #define LISTENER_GROUP_NAME "HTTP_LISTENER"
 #define GOOGLE_GROUP_NAME "GOOGLE"
@@ -27,6 +29,8 @@
 #define ACCESS_TOKEN "access_token"
 #define TOKEN_TYPE "token_type"
 
+#define TIME_OUT_WAIT_LOGIN 1800000
+
 
 class OAuth2 : public QObject
 {
@@ -36,15 +40,16 @@ public:
     OAuth2(QSettings* settings, QObject* parent = NULL);
     QString accessToken();
     bool isAuthorized();
-    void startLogin(QString m_strScope);
-    void getAccessToken();
+    ErrorCode startLogin(QString m_strScope);
+    ErrorCode getAccessToken();
     void logout();
 
 signals:
-    void loginDone();
+    void loginDone(ErrorCode err);
+    void finishedGetAuthCode();
 
 private slots:
-    void receivedResponseMessage(QNetworkReply *replyMessage);
+//    void receivedResponseMessage(QNetworkReply *replyMessage);
     void OnReceivedAuthCode(QString authCode);
 
 private:
@@ -60,7 +65,7 @@ private:
     QString m_strRedirectURI;
 
     HttpListener *httpListener;
-    QNetworkAccessManager *m_networkAccessManager;
+    QNetworkAccessManager m_networkAccessManager;
     QSettings* settings;
 };
 

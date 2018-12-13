@@ -23,5 +23,5 @@ void GoogleAccount::Logout()
 
 void GoogleAccount::Synchronize()
 {
-
+    
 }

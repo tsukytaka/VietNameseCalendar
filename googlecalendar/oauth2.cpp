@@ -6,6 +6,7 @@
 #include <QJsonObject>
 #include <QJsonParseError>
 #include <QFile>
+#include <QEventLoop>
 
 
 OAuth2::OAuth2(QSettings *settings, QObject *parent): QObject(parent)
@@ -44,35 +45,35 @@ OAuth2::OAuth2(QSettings *settings, QObject *parent): QObject(parent)
     settings->beginGroup(GOOGLE_GROUP_NAME);
     this->settings = settings;
 
-    m_networkAccessManager = new QNetworkAccessManager(this);
-    connect(m_networkAccessManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(receivedResponseMessage(QNetworkReply*)));
+//    m_networkAccessManager = new QNetworkAccessManager(this);
+//    connect(m_networkAccessManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(receivedResponseMessage(QNetworkReply*)), Qt::DirectConnection);
 
 }
 
-void OAuth2::receivedResponseMessage(QNetworkReply* replyMessage)
-{
-    QString content = (QString) replyMessage->readAll();
-    QJsonParseError error;
-    QJsonDocument jDoc = QJsonDocument::fromJson(content.toUtf8(), &error);
-    if (jDoc.isNull() || jDoc.isEmpty()) {
-        qCritical() << "Error: Parse message, " << error.errorString();
-        return;
-    }
-    QJsonObject jObj = jDoc.object();
-    m_strAccessToken = jObj.value(ACCESS_TOKEN).toString();
-    m_refreshToken = jObj.value(REFRESH_TOKEN).toString();
-    m_tokenType = jObj.value(TOKEN_TYPE).toString();
+//void OAuth2::receivedResponseMessage(QNetworkReply* replyMessage)
+//{
+//    QString content = (QString) replyMessage->readAll();
+//    QJsonParseError error;
+//    QJsonDocument jDoc = QJsonDocument::fromJson(content.toUtf8(), &error);
+//    if (jDoc.isNull() || jDoc.isEmpty()) {
+//        qCritical() << "Error: Parse message, " << error.errorString();
+//        return;
+//    }
+//    QJsonObject jObj = jDoc.object();
+//    m_strAccessToken = jObj.value(ACCESS_TOKEN).toString();
+//    m_refreshToken = jObj.value(REFRESH_TOKEN).toString();
+//    m_tokenType = jObj.value(TOKEN_TYPE).toString();
 
-    qDebug() << "access_token = " << m_strAccessToken;
+//    qDebug() << "access_token = " << m_strAccessToken;
 
-    emit loginDone();
-}
+//    emit loginDone();
+//}
 
 void OAuth2::OnReceivedAuthCode(QString authCode)
 {
     m_authCode = authCode;
-    getAccessToken();
     delete httpListener;
+    emit finishedGetAuthCode();
 }
 
 QString OAuth2::accessToken()
@@ -85,11 +86,13 @@ bool OAuth2::isAuthorized()
     return !m_strAccessToken.isEmpty();
 }
 
-void OAuth2::startLogin(QString m_strScope)
+ErrorCode OAuth2::startLogin(QString m_strScope)
 {
+    ErrorCode ret = Success;
     if(m_strClientID.isEmpty() || m_strRedirectURI.isEmpty())
     {
-        return;
+        ret = ApplicationNotReady;
+        goto finished;
     }
 
     if(m_authCode.isEmpty())
@@ -106,19 +109,39 @@ void OAuth2::startLogin(QString m_strScope)
         QString str = QString("%1?client_id=%2&redirect_uri=%3&response_type=%4&scope=%5").arg(m_strEndPointAuth).arg(m_strClientID).
                 arg(m_strRedirectURI).arg("code").arg(m_strScope);
         QDesktopServices::openUrl(QUrl(str));
+
+        QEventLoop eventLoop;
+        QTimer timer;
+        timer.setSingleShot(true);
+        connect(&timer, SIGNAL(timeout()), &eventLoop, SLOT(quit()));
+        connect(this, SIGNAL(finishedGetAuthCode()), &eventLoop, SLOT(quit()));
+        timer.start(TIME_OUT_WAIT_LOGIN);
+        eventLoop.exec();
+
+        if (!timer.isActive()) {
+            timer.stop();
+            ret = TimeOut;
+            goto finished;
+        }
     }
-    else if (m_refreshToken.isEmpty())
+
+    if (m_refreshToken.isEmpty())
     {
-        getAccessToken();
+        ret = getAccessToken();
+        if (ret != Success) {
+            goto finished;
+        }
     }
-    else if (m_strAccessToken.isEmpty() /*or access_token expires*/)
+
+    if (m_strAccessToken.isEmpty() /*or access_token expires*/)
     {
         //refresh access_token by refresh_token
     }
-    else
-    {
-        emit loginDone();
-    }
+
+finished:
+    emit loginDone(ret);
+    return ret;
+
 }
 
 void OAuth2::logout()
@@ -127,17 +150,56 @@ void OAuth2::logout()
     QString requestStr = logoutUrl + "/access_token=" + m_strAccessToken;
     QNetworkRequest request;
     request.setUrl(requestStr);
-    m_networkAccessManager->get(request);
+    m_networkAccessManager.get(request);
 }
 
-void OAuth2::getAccessToken()
+ErrorCode OAuth2::getAccessToken()
 {
+    ErrorCode ret = Success;
+    QJsonObject jObj;
+    QJsonValue valueObj;
     //request POST message to get access token
     QString strData = QString("grant_type=authorization_code&code=%1&redirect_uri=%2&client_id=%3&client_secret=%4").arg(m_authCode).arg(m_strRedirectURI).arg(m_strClientID).arg(m_strClientSecret);
 
     QNetworkRequest request;
     request.setUrl(m_strEndPointToken);
-    m_networkAccessManager->post(request, strData.toUtf8());
+    QNetworkReply* replyMessage = m_networkAccessManager.post(request, strData.toUtf8());
+
+    QEventLoop eventLoop;
+    connect(replyMessage, SIGNAL(finished()), &eventLoop, SLOT(quit()));
+    eventLoop.exec();
+
+
+    QString content = (QString) replyMessage->readAll();
+    QJsonParseError error;
+    QJsonDocument jDoc = QJsonDocument::fromJson(content.toUtf8(), &error);
+    if (jDoc.isNull() || jDoc.isEmpty()) {
+        qCritical() << "Error: Parse message, " << error.errorString();
+        ret = JsonIncorrectFormat;
+        goto finish_getAccessToken;
+    }
+    jObj = jDoc.object();
+    if((valueObj = jObj.value(ACCESS_TOKEN)) != QJsonValue::Undefined) {
+        m_strAccessToken = valueObj.toString();
+    }
+    else
+    {
+        ret = ValueInvalidate;
+        goto finish_getAccessToken;
+    }
+
+    if((valueObj = jObj.value(REFRESH_TOKEN)) != QJsonValue::Undefined) {
+        m_refreshToken = valueObj.toString();
+    }
+    if((valueObj = jObj.value(TOKEN_TYPE)) != QJsonValue::Undefined) {
+        m_tokenType = valueObj.toString();
+    }
+
+    qDebug() << "access_token = " << m_strAccessToken;
+
+finish_getAccessToken:
+    return ret;
+
 }
 
 

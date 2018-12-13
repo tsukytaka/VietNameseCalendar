@@ -6,9 +6,7 @@ SOURCES += main.cpp \
     lunartools.cpp \
     qlunardate.cpp \
     ScheduleScreen/schedulescreenvm.cpp \
-    scheduleitem.cpp \
     EventsScreen/eventsscreenvm.cpp \
-    event.cpp \
     weblistenerserver.cpp \
     settingmodule.cpp \
     httpserver/httpconnectionhandler.cpp \
@@ -23,7 +21,10 @@ SOURCES += main.cpp \
     ManageAcc/googleaccount.cpp \
     DatabaseManager/databasemanager.cpp \
     SystemMenu/systemmenuvm.cpp \
-    MonthScreen/monthviewvm.cpp
+    MonthScreen/monthviewvm.cpp \
+    googlecalendar/googlecalendartool.cpp \
+    DatabaseManager/calendar.cpp \
+    DatabaseManager/event.cpp
 
 RESOURCES += qml.qrc
 
@@ -38,9 +39,7 @@ HEADERS += \
     qlunardate.h \
     afxstd.h \
     ScheduleScreen/schedulescreenvm.h \
-    scheduleitem.h \
     EventsScreen/eventsscreenvm.h \
-    event.h \
     weblistenerserver.h \
     settingmodule.h \
     httpserver/httpconnectionhandler.h \
@@ -55,7 +54,11 @@ HEADERS += \
     ManageAcc/googleaccount.h \
     DatabaseManager/databasemanager.h \
     SystemMenu/systemmenuvm.h \
-    MonthScreen/monthviewvm.h
+    MonthScreen/monthviewvm.h \
+    googlecalendar/googlecalendartool.h \
+    DatabaseManager/calendar.h \
+    DatabaseManager/event.h \
+    errorcode.h
 
 DISTFILES += \
     config/VietNameseCalendar.cfg
