@@ -24,7 +24,12 @@ Calendar {
 
     Component {
         id: calstyle
+
         CalendarStyle {
+            background: Rectangle {
+                color: Material.background
+            }
+
             dayDelegate: Item {
                 id: thisItem
                 Rectangle {
@@ -33,13 +38,13 @@ Calendar {
                     border.width: 2
     //                    border.color: styleData.date !== undefined && styleData.selected ? selectedDateColor : "transparent"
 
-    //                    color: {
-    //                        var color
-    //                        if (styleData.valid) {
-    //                            color = styleData.visibleMonth ? backgroundColorVisible : backgroundColorInvisible
-    //                        }
-    //                        color;
-    //                    }
+//                    color: {
+//                        var color
+//                        if (styleData.valid) {
+//                            color = styleData.visibleMonth ? backgroundColorVisible : backgroundColorInvisible
+//                        }
+//                        color;
+//                    }
 
 
                     Text {

@@ -11,6 +11,7 @@ class GoogleCalendarTool : public QObject
 public:
     static GoogleCalendarTool* getInstance();
     ErrorCode getCalendars(QString access_token, QList<Calendar> &listCalendar);
+//    ErrorCode getEvents(QString access_token, QString calendarId, QList<Event> &listEvent);
 
 private:
     GoogleCalendarTool(QObject* parent = NULL);

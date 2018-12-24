@@ -24,7 +24,8 @@ SOURCES += main.cpp \
     MonthScreen/monthviewvm.cpp \
     googlecalendar/googlecalendartool.cpp \
     DatabaseManager/calendar.cpp \
-    DatabaseManager/event.cpp
+    DatabaseManager/event.cpp \
+    DatabaseManager/googlecalendar.cpp
 
 RESOURCES += qml.qrc
 
@@ -58,7 +59,8 @@ HEADERS += \
     googlecalendar/googlecalendartool.h \
     DatabaseManager/calendar.h \
     DatabaseManager/event.h \
-    errorcode.h
+    errorcode.h \
+    DatabaseManager/googlecalendar.h
 
 DISTFILES += \
     config/VietNameseCalendar.cfg

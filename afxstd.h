@@ -17,6 +17,8 @@
 #include <QString>
 #include <QNetworkReply>
 #include <QTimer>
+#include <QTimeZone>
+#include <QColor>
 
 #define PI 3.141592653589793
 #define TIME_ZONE 7

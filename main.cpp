@@ -13,6 +13,8 @@
 
 QSettings* appSettings;
 QString dataDir;
+Account defaultAcc;
+Calendar lunarCal;
 
 int main(int argc, char *argv[])
 {
@@ -34,6 +36,8 @@ int main(int argc, char *argv[])
     QString pathConfigFile = dataDir + QDir::separator() + QCoreApplication::applicationName().append('.cfg');
     appSettings = new QSettings(pathConfigFile, QSettings::IniFormat, &app);
 
+    defaultAcc.addCalendar(lunarCal);
+
 //    /*
 //     * Test OAuth2
 //     */
@@ -47,13 +51,13 @@ int main(int argc, char *argv[])
 //    Lunar::convertSolar2Lunar(QDate::currentDate(), 7, dd, mm, yy);
 //    qInfo() << yy << "/" << mm << "/" << dd;
 
-    /*
-     * Test GoogleAcc
-     *
-     */
-    GoogleAccount googleAcc;
-    googleAcc.Login();
-    googleAcc.Synchronize();
+//    /*
+//     * Test GoogleAcc
+//     *
+//     */
+//    GoogleAccount googleAcc;
+//    googleAcc.Login();
+//    googleAcc.Synchronize();
 
 
 

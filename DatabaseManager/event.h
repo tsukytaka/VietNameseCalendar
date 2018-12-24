@@ -7,6 +7,7 @@ class Event
 {
 public:
     Event();
+    Event(QString id);
 
 private:
     QString eventId;

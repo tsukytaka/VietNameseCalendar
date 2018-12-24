@@ -15,7 +15,7 @@ ApplicationWindow {
     height: 920
     flags: Qt.Window | Qt.FramelessWindowHint
 
-    Material.theme: Material.Light
+    Material.theme: Material.Dark
 
     Loader {
         id: topMenu

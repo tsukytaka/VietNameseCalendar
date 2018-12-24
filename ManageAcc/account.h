@@ -2,7 +2,8 @@
 #define ACCOUNT_H
 
 #include <QObject>
-#include <QColor>
+#include "afxstd.h"
+#include "DatabaseManager/calendar.h"
 
 class Account : public QObject
 {
@@ -21,8 +22,11 @@ public:
     inline void setType(TYPE_ACC type){m_type = type;}
     inline QString getName(){return m_name;}
     inline void setName(QString name){m_name = name;}
-    inline QColor getColor(){return m_color;}
-    inline void setColor(QColor color){m_color = color;}
+//    inline QColor getColor(){return m_color;}
+//    inline void setColor(QColor color){m_color = color;}
+
+    void addCalendar(Calendar cal);
+    QList<Calendar> getCalendarList();
 
     inline virtual void Login(){}
     inline virtual void Logout(){}
@@ -35,7 +39,8 @@ public slots:
 private:
     TYPE_ACC m_type;
     QString m_name;
-    QColor m_color;
+    QList<Calendar> m_calendars;
+//    QColor m_color;
 
 };
 
