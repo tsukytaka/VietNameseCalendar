@@ -13,7 +13,7 @@ private:
     QString kind;
     QString etag;
     QString summary;
-    bool selected;
+//    bool selected;
     QString accessRole;
 };
 

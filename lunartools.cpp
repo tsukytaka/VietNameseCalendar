@@ -2,7 +2,7 @@
 #include <QtMath>
 #include <QDebug>
 
-LunarTools* LunarTools::instance = NULL;
+LunarTools* LunarTools::instance = nullptr;
 
 LunarTools::LunarTools(QObject *parent) : QObject(parent)
 {
@@ -26,16 +26,16 @@ QObject *LunarTools::qobject_lunartools_provider(QQmlEngine *engine, QJSEngine *
 }
 
 qint64 LunarTools::getMonthOfLunarByJd(qint64 jd) {
-    return (qint64)((jd-2415021)/29.530588853);
+    return qint64((jd-NEWMOON_IN_JAN_01_1990_JD)/AVG_NUMBER_DAY_IN_MONTH);
 }
 
 qint64 LunarTools::getNewMoonDay(qint64 monthOfLunar, qint32 timeZone) {
     qreal T, T2, T3, dr, Jd1, M, Mpr, F, C1, deltat, JdNew;
-    T = monthOfLunar/1236.85; // Time in Julian centuries from 1900 January 0.5
+    T = monthOfLunar/(AVG_NUMBER_LUNAR_MONTH_IN_YEAR*100); // Time in Julian centuries from 1900 January 0.5
     T2 = T * T;
     T3 = T2 * T;
     dr = PI/180;
-    Jd1 = 2415020.75933 + 29.53058868*monthOfLunar + 0.0001178*T2 - 0.000000155*T3;
+    Jd1 = START_IN_JAN_01_1990_JD + AVG_NUMBER_DAY_IN_MONTH*monthOfLunar + 0.0001178*T2 - 0.000000155*T3;
     Jd1 = Jd1 + 0.00033*qSin((166.56 + 132.87*T - 0.009173*T2)*dr); // Mean new moon
     M = 359.2242 + 29.10535608*monthOfLunar - 0.0000333*T2 - 0.00000347*T3; // Sun's mean anomaly
     Mpr = 306.0253 + 385.81691806*monthOfLunar + 0.0107306*T2 + 0.00001236*T3; // Moon's mean anomaly
@@ -53,15 +53,15 @@ qint64 LunarTools::getNewMoonDay(qint64 monthOfLunar, qint32 timeZone) {
         deltat= -0.000278 + 0.000265*T + 0.000262*T2;
     };
     JdNew = Jd1 + C1 - deltat;
-    qint64  jd = (qint64)(JdNew + 0.5 + (qreal)timeZone/24);
+    qint64  jd = qint64(JdNew + 0.5 + timeZone/24.0);
     return jd;
 }
 
 
 
-qint32 LunarTools::getSunLongitude(qint64 jdn, qint32 timeZone){
+qint64 LunarTools::getSunLongitude(qint64 jdn, qint32 timeZone){
     qreal T, T2, dr, M, L0, DL, L;
-    T = (jdn - 2451545.5 - (qreal)timeZone/24) / 36525; // Time in Julian centuries from 2000-01-01 12:00:00 GMT
+    T = (jdn - 2451545.5 - timeZone/24.0) / 36525; // Time in Julian centuries from 2000-01-01 12:00:00 GMT
     T2 = T*T;
     dr = PI/180; // degree to radian
     M = 357.52910 + 35999.05030*T - 0.0001559*T2 - 0.00000048*T*T2; // mean anomaly, degree
@@ -71,25 +71,27 @@ qint32 LunarTools::getSunLongitude(qint64 jdn, qint32 timeZone){
     L = L0 + DL; // true longitude, degree
     L = L*dr;
     L = L - PI*2*(qint32(L/(PI*2))); // Normalize to (0, 2*PI)
-    return qint32(L / PI * 6);
+    return qint64(L / PI * 6);
 }
 
-qint32 LunarTools::getLunarMonth11(qint32 yy, qint32 timeZone){
-    qreal k, off, nm, sunLong;
+qint64 LunarTools::getLunarMonth11(qint32 yy, qint32 timeZone){
+    qreal k, off, sunLong;
+    qint64 nm;
     QDate date(yy, 12, 31);
     off = date.toJulianDay() - 2415021;
     k = qint32(off / 29.530588853);
-    nm = getNewMoonDay(k, timeZone);
-    sunLong = getSunLongitude(nm, timeZone); // sun longitude at local midnight
+    nm = getNewMoonDay(qint64(k), timeZone);
+    sunLong = getSunLongitude(qint64(nm), timeZone); // sun longitude at local midnight
     if (sunLong >= 9) {
-        nm = getNewMoonDay(k-1, timeZone);
+        nm = getNewMoonDay(qint64(k)-1, timeZone);
     }
     return nm;
 }
 
 qint32 LunarTools::getLeapMonthOffset(qint32 a11, qint32 timeZone){
-    qreal k, last, arc, i;
-    k = qint32((a11 - 2415021.076998695) / 29.530588853 + 0.5);
+    qint64 last, arc;
+    qint64 k, i;
+    k = qint64((a11 - 2415021.076998695) / 29.530588853 + 0.5);
     last = 0;
     i = 1; // We start with the month following lunar month 11
     arc = getSunLongitude(getNewMoonDay(k+i, timeZone), timeZone);
@@ -98,22 +100,31 @@ qint32 LunarTools::getLeapMonthOffset(qint32 a11, qint32 timeZone){
         i++;
         arc = getSunLongitude(getNewMoonDay(k+i, timeZone), timeZone);
     } while (arc != last && i < 14);
-    return i-1;
+    return qint32(i-1);
 }
 
-QLunarDate *LunarTools::convertSolar2Lunar(QDate date, qint32 timeZone){
-    qint32 lunarYear, lunarMonth, lunarDay;
-    qint32 yy, mm, dd;
+QLunarDate* LunarTools::convertSolar2Lunar(QDate date, qint32 timeZone)
+{
+    qint32 lunarYear, lunarMonth, lunarDay, lunarLeap;
+    qint32 yy;
     yy = date.year();
-    mm = date.month();
-    dd = date.day();
-    qreal k, dayNumber, monthStart, a11, b11, lunarLeap;
+//    mm = date.month();
+//    dd = date.day();
+    qint64 k, dayNumber, monthStart, a11, b11;
     dayNumber = date.toJulianDay();
-    k = qint32((dayNumber - 2415021.076998695) / 29.530588853);
+    qInfo() << "dayNumber = " << dayNumber;
+    k = qint32((dayNumber - NEWMOON_IN_JAN_01_1990_JD) / AVG_NUMBER_DAY_IN_MONTH);
+    qInfo() << "k = " << k;
     monthStart = getNewMoonDay(k+1, timeZone);
+
+    qInfo() << "monthStart k+1 = " << monthStart;
+
     if (monthStart > dayNumber) {
         monthStart = getNewMoonDay(k, timeZone);
     }
+
+    qInfo() << "monthStart k = " << monthStart;
+
     a11 = getLunarMonth11(yy, timeZone);
     b11 = a11;
     if (a11 >= monthStart) {
@@ -123,12 +134,18 @@ QLunarDate *LunarTools::convertSolar2Lunar(QDate date, qint32 timeZone){
         lunarYear = yy+1;
         b11 = getLunarMonth11(yy+1, timeZone);
     }
-    lunarDay = dayNumber-monthStart+1;
+
+    if (date.day() == 5) {
+        qInfo() << "a11 = " << a11;
+        qInfo() << "b11 = " << b11;
+    }
+
+    lunarDay = qint32(dayNumber-monthStart+1);
     qint32 diff = qint32((monthStart - a11)/29);
     lunarLeap = 0;
     lunarMonth = diff + 11;
     if (b11 - a11 > 365) {
-        qint32 leapMonthDiff = getLeapMonthOffset(a11, timeZone);
+        qint32 leapMonthDiff = getLeapMonthOffset(qint32(a11), timeZone);
         if (diff >= leapMonthDiff) {
             lunarMonth = diff + 10;
             if (diff == leapMonthDiff) {
@@ -136,43 +153,47 @@ QLunarDate *LunarTools::convertSolar2Lunar(QDate date, qint32 timeZone){
             }
         }
     }
+
     if (lunarMonth > 12) {
         lunarMonth = lunarMonth - 12;
     }
+
     if (lunarMonth >= 11 && diff < 4) {
         lunarYear -= 1;
     }
 
-    QLunarDate *lunarDate = new QLunarDate(lunarYear, lunarMonth, lunarDay);
+    QLunarDate* lunarDate = new QLunarDate(lunarYear, lunarMonth, lunarDay, lunarLeap);
+
     return lunarDate;
 }
 
-QDate LunarTools::convertLunar2Solar(qint32 lunarDay, qint32 lunarMonth, qint32 lunarYear, qint32 lunarLeap, qint32 timeZone){
-    qreal k, a11, b11, off, leapOff, leapMonth, monthStart;
-    if (lunarMonth < 11) {
-        a11 = getLunarMonth11(lunarYear-1, timeZone);
-        b11 = getLunarMonth11(lunarYear, timeZone);
+QDate LunarTools::convertLunar2Solar(QLunarDate lunarDate, qint32 timeZone){
+    qint64 k, off, leapOff, leapMonth, monthStart;
+    qint64 a11, b11;
+    if (lunarDate.month() < 11) {
+        a11 = getLunarMonth11(lunarDate.year()-1, timeZone);
+        b11 = getLunarMonth11(lunarDate.year(), timeZone);
     } else {
-        a11 = getLunarMonth11(lunarYear, timeZone);
-        b11 = getLunarMonth11(lunarYear+1, timeZone);
+        a11 = getLunarMonth11(lunarDate.year(), timeZone);
+        b11 = getLunarMonth11(lunarDate.year()+1, timeZone);
     }
-    off = lunarMonth - 11;
+    off = lunarDate.month() - 11;
     if (off < 0) {
         off += 12;
     }
     if (b11 - a11 > 365) {
-        leapOff = getLeapMonthOffset(a11, timeZone);
+        leapOff = getLeapMonthOffset(qint32(a11), timeZone);
         leapMonth = leapOff - 2;
         if (leapMonth < 0) {
             leapMonth += 12;
         }
-        if (lunarLeap != 0 && lunarMonth != leapMonth) {
+        if (lunarDate.leap() != 0 && lunarDate.month() - leapMonth != 0) {
             return QDate(0, 0, 0);
-        } else if (lunarLeap != 0 || off >= leapOff) {
+        } else if (lunarDate.leap() != 0 || off >= leapOff) {
             off += 1;
         }
     }
     k = qint32(0.5 + (a11 - 2415021.076998695) / 29.530588853);
     monthStart = getNewMoonDay(k+off, timeZone);
-    return QDate::fromJulianDay(monthStart+lunarDay-1);
+    return QDate::fromJulianDay(monthStart+lunarDate.day()-1);
 }

@@ -25,8 +25,9 @@ public:
 //    inline QColor getColor(){return m_color;}
 //    inline void setColor(QColor color){m_color = color;}
 
-    void addCalendar(Calendar cal);
-    QList<Calendar> getCalendarList();
+//    void addCalendar(Calendar cal);
+//    QList<Calendar> getCalendarList();
+
 
     inline virtual void Login(){}
     inline virtual void Logout(){}

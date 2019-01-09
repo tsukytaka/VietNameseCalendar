@@ -1,16 +1,19 @@
 #include "qlunardate.h"
+#include "lunartools.h"
 
 QLunarDate::QLunarDate(QObject *parent) : QObject(parent)
 {
-    y = 0;
-    m = 0;
-    d = 0;
+    m_y = 0;
+    m_m = 0;
+    m_d = 0;
+    m_leap = 0;
 }
 
 QLunarDate::QLunarDate(const QLunarDate &lunarDate){
-    this->y = lunarDate.year();
-    this->m = lunarDate.month();
-    this->d = lunarDate.day();
+    m_y = lunarDate.year();
+    m_m = lunarDate.month();
+    m_d = lunarDate.day();
+    m_leap = lunarDate.leap();
 }
 
 QLunarDate::~QLunarDate() {
@@ -18,47 +21,36 @@ QLunarDate::~QLunarDate() {
 }
 
 QLunarDate &QLunarDate::operator =(const QLunarDate &lunarDate){
-    this->y = lunarDate.year();
-    this->m = lunarDate.month();
-    this->d = lunarDate.day();
+    m_y = lunarDate.year();
+    m_m = lunarDate.month();
+    m_d = lunarDate.day();
+    m_leap = lunarDate.leap();
     return (*this);
 }
 
-QLunarDate::QLunarDate(int year, int month, int day){
-    this->y = year;
-    this->m = month;
-    this->d = day;
+QLunarDate::QLunarDate(qint32 year, qint32 month, qint32 day, qint32 leap){
+    m_y = year;
+    m_m = month;
+    m_d = day;
+    m_leap = leap;
 }
 
-int QLunarDate::year() const{
-    return y;
-}
-
-void QLunarDate::setYear(int year) {
-    y = year;
-    emit yearChanged();
-}
-
-int QLunarDate::month() const{
-    return m;
-}
-
-void QLunarDate::setMonth(int month) {
-    m = month;
-    emit monthChanged();
-}
-
-int QLunarDate::day() const{
-    return d;
-}
-
-void QLunarDate::setDay(int day) {
-    d = day;
-    emit dayChanged();
+QLunarDate::QLunarDate(const QDate &date)
+{
+    QLunarDate* lunarDate = LunarTools::convertSolar2Lunar(date, TIME_ZONE);
+    m_y = lunarDate->year();
+    m_m = lunarDate->month();
+    m_d = lunarDate->day();
+    m_leap = lunarDate->leap();
 }
 
 void QLunarDate::setDate(int year, int month, int day){
-    y = year;
-    m = month;
-    d = day;
+    m_y = year;
+    m_m = month;
+    m_d = day;
+}
+
+QDate QLunarDate::toSolarDate()
+{
+    return LunarTools::convertLunar2Solar(*this, TIME_ZONE);
 }

@@ -10,6 +10,8 @@ enum ErrorCode
     JsonIncorrectFormat,
     TimeOut,
     ValueInvalidate,
+    Empty,
+    Existed,
 };
 
 

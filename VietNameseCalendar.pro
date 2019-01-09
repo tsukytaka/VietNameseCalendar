@@ -25,7 +25,10 @@ SOURCES += main.cpp \
     googlecalendar/googlecalendartool.cpp \
     DatabaseManager/calendar.cpp \
     DatabaseManager/event.cpp \
-    DatabaseManager/googlecalendar.cpp
+    DatabaseManager/googlecalendar.cpp \
+    DatabaseManager/lunarcalendar.cpp \
+    DatabaseManager/lunarevent.cpp \
+    globalvariable.cpp
 
 RESOURCES += qml.qrc
 
@@ -60,7 +63,10 @@ HEADERS += \
     DatabaseManager/calendar.h \
     DatabaseManager/event.h \
     errorcode.h \
-    DatabaseManager/googlecalendar.h
+    DatabaseManager/googlecalendar.h \
+    DatabaseManager/lunarcalendar.h \
+    DatabaseManager/lunarevent.h \
+    globalvariable.h
 
 DISTFILES += \
     config/VietNameseCalendar.cfg

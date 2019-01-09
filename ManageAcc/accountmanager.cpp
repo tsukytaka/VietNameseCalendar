@@ -1,6 +1,6 @@
 #include "accountmanager.h"
 
-AccountManager *AccountManager::instance = NULL;
+AccountManager *AccountManager::instance = nullptr;
 
 AccountManager::AccountManager()
 {
@@ -36,5 +36,5 @@ void AccountManager::addAccount(Account::TYPE_ACC type)
 
 void AccountManager::deleteAccount(QString name)
 {
-
+    Q_UNUSED(name);
 }

@@ -5,7 +5,7 @@
 
 #define ITEMS_TAG "items"
 
-GoogleCalendarTool* GoogleCalendarTool::instance = NULL;
+GoogleCalendarTool* GoogleCalendarTool::instance = nullptr;
 
 GoogleCalendarTool::GoogleCalendarTool(QObject *parent) : QObject(parent)
 {
@@ -21,6 +21,7 @@ GoogleCalendarTool* GoogleCalendarTool::getInstance()
 
 ErrorCode GoogleCalendarTool::getCalendars(QString access_token, QList<Calendar> &listCalendar)
 {
+    Q_UNUSED(listCalendar);
     ErrorCode ret = Success;
     QString content;
     QJsonParseError error;
@@ -48,7 +49,7 @@ ErrorCode GoogleCalendarTool::getCalendars(QString access_token, QList<Calendar>
         goto finished;
     }
 
-    content = (QString) replyMsg->readAll();
+    content = QString::fromUtf8(replyMsg->readAll());
     qDebug() << "content = " << content;
 
     jDoc = QJsonDocument::fromJson(content.toUtf8(), &error);

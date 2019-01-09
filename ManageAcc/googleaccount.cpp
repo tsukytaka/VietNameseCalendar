@@ -1,11 +1,10 @@
 #include "googleaccount.h"
 #include "googlecalendar/googlecalendartool.h"
-
-extern QSettings* appSettings;
+#include "globalvariable.h"
 
 GoogleAccount::GoogleAccount(QObject *parent) : Account(parent)
 {
-    m_pOauth2 = new OAuth2(appSettings);
+    m_pOauth2 = new OAuth2(GlobalVariable::getInstance()->getAppSetting());
 }
 
 GoogleAccount::~GoogleAccount()
