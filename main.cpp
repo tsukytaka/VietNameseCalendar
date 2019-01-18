@@ -12,6 +12,9 @@
 #include "settingmodule.h"
 #include "ManageAcc/accountmanager.h"
 #include "globalvariable.h"
+#include "DatabaseManager/databasemanager.h"
+#include "CreateEventScreen/createeventscreenvm.h"
+#include "imgprovider.h"
 
 int main(int argc, char *argv[])
 {
@@ -23,6 +26,7 @@ int main(int argc, char *argv[])
 
     qRegisterMetaType<QLunarDate*>();
     qmlRegisterSingletonType<LunarTools>("VCalendar", 1, 0, "LunarTools", LunarTools::qobject_lunartools_provider);
+    qmlRegisterType<CreateEventScreenVM>("VCalendar", 1, 0, "CreateEventScreenVM");
 
     GlobalVariable::getInstance()->setDataDir(QStandardPaths::writableLocation(QStandardPaths::DataLocation));
     QDir dir(GlobalVariable::getInstance()->getDataDir());
@@ -33,6 +37,11 @@ int main(int argc, char *argv[])
     qInfo() << "dataDir = " << GlobalVariable::getInstance()->getDataDir();
     QString pathConfigFile = GlobalVariable::getInstance()->getDataDir() + QDir::separator() + QCoreApplication::applicationName().append(".cfg");
     GlobalVariable::getInstance()->setAppSetting( new QSettings(pathConfigFile, QSettings::IniFormat, &app));
+
+    DatabaseManager::getInstance();
+
+
+
 
 //    defaultAcc.addCalendar(lunarCal);
 
@@ -85,8 +94,12 @@ int main(int argc, char *argv[])
 
 
 
-//    QQmlApplicationEngine engine;
-//    engine.load(QUrl(QLatin1String("qrc:/main.qml")));
+    QQmlApplicationEngine engine;
+
+    ImgProvider *imgProvider = ImgProvider::GetInstance();
+    engine.addImageProvider(QString("ImgProvider"), imgProvider);
+
+    engine.load(QUrl(QLatin1String("qrc:/main.qml")));
 
     return app.exec();
 }

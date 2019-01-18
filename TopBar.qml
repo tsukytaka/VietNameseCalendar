@@ -1,8 +1,10 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.0
+import QtQuick.Controls.Material 2.0
 
 Rectangle {
     id: topBar
+    color: Material.primary
 
     Button {
         id: menuBtn
@@ -13,6 +15,8 @@ Rectangle {
 
         onClicked: {
             systemMenu.open()
+            console.log("Material.primary = " + Material.primary)
+            console.log("Material.background = " + Material.background)
         }
     }
 

@@ -8,9 +8,8 @@ import VCalendar 1.0
 Calendar {
     id: calendar
     width: parent.width
-    height: parent.height * 0.5
+    height: parent.height
     frameVisible: true
-    selectedDate: new Date()
     focus: true
     style: calstyle
     navigationBarVisible: false
@@ -20,6 +19,18 @@ Calendar {
     }
     onVisibleYearChanged: {
 //            calendarManager.date = new Date(calendar.visibleYear, calendar.visibleMonth, 1)
+    }
+
+    onClicked: {
+        console.log("test click")
+    }
+
+    onPressed: {
+        console.log("test press")
+    }
+
+    Component.onCompleted: {
+
     }
 
     Component {
@@ -34,54 +45,53 @@ Calendar {
                 id: thisItem
                 Rectangle {
                     anchors.fill: parent
-                    anchors.margins: styleData.selected ? 0 : 2
+                    anchors.margins: 1
                     border.width: 2
-    //                    border.color: styleData.date !== undefined && styleData.selected ? selectedDateColor : "transparent"
+                    color: Material.background
 
-//                    color: {
-//                        var color
-//                        if (styleData.valid) {
-//                            color = styleData.visibleMonth ? backgroundColorVisible : backgroundColorInvisible
-//                        }
-//                        color;
-//                    }
+                    Rectangle {
+                        id: selectedAreaDate
+                        anchors.top: parent.top
+                        anchors.topMargin: 5
+                        anchors.left: parent.left
+                        anchors.leftMargin: 5
+                        width: 32
+                        height: 32
+                        radius: width*0.5
+                        color: styleData.today ? Material.primary : parent.color
 
+                        Text {
+                            id: dayDelegateText
+                            text: styleData.date.getDate()
+                            anchors.centerIn: parent
+                            font.pixelSize: 18
+                            color: {
+                                return styleData.visibleMonth ? Material.foreground : Material.color(Material.foreground, Material.Shade100)
+                            }
+                        }
 
-                    Text {
-                        id: dayDelegateText
-                        text: styleData.date.getDate()
-                        anchors.centerIn: parent
-                        font.pixelSize: 18
-    //                        color: {
-    //                            var color = invalidDatecolor;
-    //                            if (styleData.valid) {
-    //                                color = styleData.visibleMonth ? textColor : differentMonthDateTextColor;
-    //                            }
-    //                            color;
-    //                        }
                     }
 
                     Text {
                         id: lunarDayDelegateText
                         text: {
+                            var dateStr = "";
                             var lunarDate = LunarTools.convertSolar2Lunar(styleData.date, 7)
+
                             if (lunarDate.day === 1) {
-                                return lunarDate.day + "/" + lunarDate.month
+                                dateStr = lunarDate.day + "/" + lunarDate.month
                             }
-                            return lunarDate.day
+                            dateStr = lunarDate.day
+                            return dateStr
                         }
                         anchors.bottom: parent.bottom
                         anchors.bottomMargin: 5
                         anchors.right: parent.right
                         anchors.rightMargin: 5
                         font.pixelSize: 12
-    //                        color: {
-    //                            var color = invalidDatecolor;
-    //                            if (styleData.valid) {
-    //                                color = styleData.visibleMonth ? textColor : differentMonthDateTextColor;
-    //                            }
-    //                            color;
-    //                        }
+                        color: {
+                            return styleData.visibleMonth ? Material.foreground : Material.color(Material.foreground, Material.Shade100)
+                        }
                     }
                 }
 
@@ -90,10 +100,7 @@ Calendar {
             navigationBar: Rectangle {
                 id: navigation
                 height: 64
-                color: Material.color(Material.Orange , Material.Shade200)
-
-
-
+                color: Material.background
                 Text {
                     id: monthDelegateText
                     text: styleData.title
@@ -101,6 +108,7 @@ Calendar {
                     font.pixelSize: 18
                 }
             }
+
         }
     }
 

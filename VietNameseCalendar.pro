@@ -28,7 +28,10 @@ SOURCES += main.cpp \
     DatabaseManager/googlecalendar.cpp \
     DatabaseManager/lunarcalendar.cpp \
     DatabaseManager/lunarevent.cpp \
-    globalvariable.cpp
+    globalvariable.cpp \
+    DatabaseManager/solarcalendar.cpp \
+    CreateEventScreen/createeventscreenvm.cpp \
+    imgprovider.cpp
 
 RESOURCES += qml.qrc
 
@@ -66,7 +69,10 @@ HEADERS += \
     DatabaseManager/googlecalendar.h \
     DatabaseManager/lunarcalendar.h \
     DatabaseManager/lunarevent.h \
-    globalvariable.h
+    globalvariable.h \
+    DatabaseManager/solarcalendar.h \
+    CreateEventScreen/createeventscreenvm.h \
+    imgprovider.h
 
 DISTFILES += \
     config/VietNameseCalendar.cfg

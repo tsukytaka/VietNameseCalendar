@@ -2,9 +2,9 @@
 #define GOOGLECALENDAR_H
 
 #include "afxstd.h"
-#include "calendar.h"
+#include "solarcalendar.h"
 
-class GoogleCalendar : public Calendar
+class GoogleCalendar : public SolarCalendar
 {
 public:
     GoogleCalendar();
@@ -13,7 +13,6 @@ private:
     QString kind;
     QString etag;
     QString summary;
-//    bool selected;
     QString accessRole;
 };
 
