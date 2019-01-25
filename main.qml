@@ -32,8 +32,8 @@ ApplicationWindow {
             id: viewArea
             width: parent.width
             height: parent.height * 0.9
-//            source: "MonthScreen/MonthView.qml"
-            source: "CreateEventScreen/CreateEventScreen.qml"
+            source: "MonthScreen/MonthView.qml"
+//            source: "CreateEventScreen/CreateEventScreen.qml"
         }
     }
 

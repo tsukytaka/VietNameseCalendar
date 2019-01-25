@@ -5,6 +5,11 @@ Calendar::Calendar()
 
 }
 
+Calendar::~Calendar()
+{
+
+}
+
 ErrorCode Calendar::addEvent(Event* event)
 {
     ErrorCode ret = Success;
@@ -45,5 +50,26 @@ ErrorCode Calendar::getEvent(QString id, Event *&outputEvent)
     {
         ret = Empty;
     }
+    return ret;
+}
+
+ErrorCode Calendar::getNumberEvent(qint32 &numberEvent)
+{
+    ErrorCode ret = Success;
+    numberEvent = m_events.count();
+    return ret;
+}
+
+ErrorCode Calendar::importCSVFile(QString pathFile)
+{
+    Q_UNUSED(pathFile);
+    ErrorCode ret = Success;
+    return ret;
+}
+
+ErrorCode Calendar::exportCSVFile(QString pathFile)
+{
+    Q_UNUSED(pathFile);
+    ErrorCode ret = Success;
     return ret;
 }

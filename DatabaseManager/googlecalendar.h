@@ -9,6 +9,9 @@ class GoogleCalendar : public SolarCalendar
 public:
     GoogleCalendar();
 
+    ErrorCode importCSVFile(QString pathFile) override;
+    ErrorCode exportCSVFile(QString pathFile) override;
+
 private:
     QString kind;
     QString etag;

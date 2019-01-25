@@ -8,13 +8,17 @@ class LunarEvent : public Event
 public:
     LunarEvent();
 
-    inline void setLunarDate(const QLunarDate lunarDate) {m_lunarDate = lunarDate; }
-    inline QLunarDate getLunarDate() const {return m_lunarDate; }
+    inline void setStartLunarDate(const QLunarDate lunarDate) {m_startLunarDate = lunarDate; }
+    inline QLunarDate getStartLunarDate() const {return m_startLunarDate; }
+
+    inline void setEndLunarDate(const QLunarDate lunarDate) {m_endLunarDate = lunarDate; }
+    inline QLunarDate getEndLunarDate() const {return m_endLunarDate; }
 
     ErrorCode updateDateFromLunarDate();
 
 private:
-    QLunarDate m_lunarDate;
+    QLunarDate m_startLunarDate;
+    QLunarDate m_endLunarDate;
 };
 
 #endif // LUNAREVENT_H

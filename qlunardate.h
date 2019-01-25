@@ -14,7 +14,7 @@ class QLunarDate : public QObject
 public:
     explicit QLunarDate(QObject *parent = nullptr);
     QLunarDate(const QLunarDate &lunarDate);
-    QLunarDate(qint32 year, qint32 month, qint32 day, qint32 leap);
+    QLunarDate(qint32 year, qint32 month, qint32 day, qint32 leap = 0);
     QLunarDate(const QDate &date);
     QLunarDate &operator = (const QLunarDate &lunarDate);
     ~QLunarDate();

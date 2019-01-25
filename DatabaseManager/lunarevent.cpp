@@ -8,6 +8,7 @@ LunarEvent::LunarEvent()
 ErrorCode LunarEvent::updateDateFromLunarDate()
 {
     ErrorCode ret = Success;
-    setDate(m_lunarDate.toSolarDate());
+    setStartDate(m_startLunarDate.toSolarDate());
+    setEndDate(m_endLunarDate.toSolarDate());
     return ret;
 }

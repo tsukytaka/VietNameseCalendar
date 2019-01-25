@@ -23,8 +23,11 @@ public:
     inline void setType (const EVENT_TYPE type) {m_type = type; }
     inline EVENT_TYPE getType() const {return m_type; }
 
-    inline void setDate(const QDate date) {m_date = date; }
-    inline QDate getDate() const {return m_date; }
+    inline void setStartDate(const QDate date) {m_startDate = date; }
+    inline QDate getStartDate() const {return m_startDate; }
+
+    inline void setEndDate(const QDate date) {m_endDate = date; }
+    inline QDate getEndDate() const {return m_endDate; }
 
     inline void setStartTime(const QTime startTime) {m_startTime = startTime; }
     inline QTime getStartTime() const {return m_startTime; }
@@ -41,7 +44,8 @@ public:
 private:
     QString m_eventId;
     EVENT_TYPE m_type;
-    QDate m_date;
+    QDate m_startDate;
+    QDate m_endDate;
     QTime m_startTime;
     QTime m_endTime;
     QString m_title;

@@ -11,6 +11,7 @@ class Calendar
 {
 public:
     Calendar();
+    virtual ~Calendar();
 
     inline QString calendarId() const {return m_calendarId; }
     inline void setCalendarId(QString calendarId) {m_calendarId = calendarId; }
@@ -26,7 +27,10 @@ public:
     ErrorCode addEvent(Event* event);
     ErrorCode deleteEvent(Event* event);
     ErrorCode getEvent(QString id, Event *&outputEvent);
+    ErrorCode getNumberEvent(qint32 &numberEvent);
 
+    virtual ErrorCode importCSVFile(QString pathFile);
+    virtual ErrorCode exportCSVFile(QString pathFile);
 
 private:
     QString m_calendarId;

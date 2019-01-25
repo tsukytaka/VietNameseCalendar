@@ -12,6 +12,7 @@ enum ErrorCode
     ValueInvalidate,
     Empty,
     Existed,
+    FileInvalid,
 };
 
 

@@ -13,6 +13,6 @@
         <file>Images/2x/baseline_clear_black_48dp.png</file>
         <file>Images/1x/baseline_clear_black_24dp.png</file>
         <file>Images/2x/baseline_clear_black_24dp.png</file>
-        <file>Images/baseline-clear-black-24.zip</file>
+        <file>CommonControl/DatePickerDialog.qml</file>
     </qresource>
 </RCC>

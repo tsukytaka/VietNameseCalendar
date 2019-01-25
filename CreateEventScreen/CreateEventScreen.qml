@@ -1,7 +1,8 @@
 import QtQuick 2.0
-import QtQuick.Controls 2.0
+import QtQuick.Controls 2.1
 import QtQuick.Controls.Material 2.0
 import VCalendar 1.0
+import "qrc:/CommonControl"
 
 Rectangle {
     id: recCreateEvent
@@ -24,6 +25,8 @@ Rectangle {
                 anchors.centerIn: parent
                 source: "image://ImgProvider/baseline_clear_black_24dp.png"
             }
+
+
         }
 
         Column {
@@ -46,6 +49,17 @@ Rectangle {
                     id: txtfStartDate
                     width: 120
                     height: 64
+                    // Click to select date here
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: {
+//                            txtfStartDate.focus = true;
+                            onClicked: {
+//                                datePickerDlg.parent = txtfStartDate
+                                datePickerDlg.open()
+                            }
+                        }
+                    }
                 }
 
                 TextField {
@@ -65,16 +79,16 @@ Rectangle {
                 }
 
                 TextField {
-                    id: txtfEndDate
-                    width: 120
-                    height: 64
-                }
-
-                TextField {
                     id: txtfEndTime
                     width: 120
                     height: 64
                     visible: !vmObject.isAllDay
+                }
+
+                TextField {
+                    id: txtfEndDate
+                    width: 120
+                    height: 64
                 }
 
                 Button {
@@ -119,9 +133,15 @@ Rectangle {
 
             }
         }
+
+
     }
 
-
-
-
+    DatePickerDialog {
+        id: datePickerDlg
+        x: (parent.width - width)/2
+        y: (parent.height - height)/2
+//        anchor.top: parent.bottom
+//        anchor.left: parent.left
+    }
 }
