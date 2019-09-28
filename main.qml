@@ -11,11 +11,11 @@ import "SystemMenu"
 ApplicationWindow {
     id: mainWindow
     visible: true
-    width: 1640
-    height: 920
+    width: 1280
+    height: 720
     flags: Qt.Window | Qt.FramelessWindowHint
 
-    Material.theme: Material.Dark
+//    Material.theme: Material.Dark
     Material.primary: "#9FA8DA"
 
     Column {
@@ -34,18 +34,20 @@ ApplicationWindow {
             height: parent.height * 0.9
             source: "MonthScreen/MonthView.qml"
 //            source: "CreateEventScreen/CreateEventScreen.qml"
+
+            SystemMenu {
+                id:systemMenu
+                x: 0
+                y: 0
+                width: viewArea.width*0.3
+                height: viewArea.height
+                focus: true
+                closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
+            }
         }
     }
 
-    SystemMenu {
-        id:systemMenu
-        x: 0
-        y: 0
-        width: 200
-        height: 920
-        focus: true
-        closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
-    }
+
 
     Component.onCompleted: {
         console.log("Material.primary = " + Material.primary)

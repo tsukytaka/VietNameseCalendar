@@ -10,7 +10,7 @@ class Account : public QObject
     Q_OBJECT
 
 public:
-    explicit Account(QObject *parent = 0);
+    explicit Account(QObject *parent = nullptr);
     inline virtual ~Account() {}
 
     enum TYPE_ACC{
@@ -22,8 +22,8 @@ public:
     inline void setType(TYPE_ACC type){m_type = type;}
     inline QString getName(){return m_name;}
     inline void setName(QString name){m_name = name;}
-//    inline QColor getColor(){return m_color;}
-//    inline void setColor(QColor color){m_color = color;}
+    inline QString getColor(){return m_color;}
+    inline void setColor(QString color){m_color = color;}
 
 //    void addCalendar(Calendar cal);
 //    QList<Calendar> getCalendarList();
@@ -41,7 +41,7 @@ private:
     TYPE_ACC m_type;
     QString m_name;
     QList<Calendar> m_calendars;
-//    QColor m_color;
+    QString m_color;
 
 };
 

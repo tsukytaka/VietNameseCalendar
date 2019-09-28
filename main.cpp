@@ -39,23 +39,23 @@ int main(int argc, char *argv[])
     QString pathConfigFile = GlobalVariable::getInstance()->getDataDir() + QDir::separator() + QCoreApplication::applicationName().append(".cfg");
     GlobalVariable::getInstance()->setAppSetting( new QSettings(pathConfigFile, QSettings::IniFormat, &app));
 
-    DatabaseManager::getInstance();
+//    DatabaseManager::getInstance();
 
 
-    /*
-     * Test import from csv file for lunar calendar
-     */
-    LunarCalendar lunarCal;
-    ErrorCode ret = lunarCal.importCSVFile("../../otherfile/lunarCal.csv");
-    if (ret == FileInvalid) {
-        qWarning() << "file error or not exist";
-    }
-    qint32 numberEvent;
-    ret = lunarCal.getNumberEvent(numberEvent);
-    if (ret != Success) {
-        qWarning() << "get number event error";
-    }
-    qDebug() << "number event = " << numberEvent;
+//    /*
+//     * Test import from csv file for lunar calendar
+//     */
+//    LunarCalendar lunarCal;
+//    ErrorCode ret = lunarCal.importCSVFile("../../otherfile/lunarCal.csv");
+//    if (ret == FileInvalid) {
+//        qWarning() << "file error or not exist";
+//    }
+//    qint32 numberEvent;
+//    ret = lunarCal.getNumberEvent(numberEvent);
+//    if (ret != Success) {
+//        qWarning() << "get number event error";
+//    }
+//    qDebug() << "number event = " << numberEvent;
 
 
 

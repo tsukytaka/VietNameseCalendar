@@ -4,7 +4,7 @@ import QtQuick.Controls.Material 2.0
 
 Rectangle {
     id: topBar
-    color: Material.primary
+//    color: Material.primary
 
     Button {
         id: menuBtn
