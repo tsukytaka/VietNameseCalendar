@@ -22,17 +22,14 @@ ResourceManager *ResourceManager::GetInstance()
 QImage ResourceManager::getImage(QString imgName)
 {
     QImage img;
-    QMap<QString, QImage>::iterator itr = _resourcrTable.find(imgName);
-    if (itr != _resourcrTable.end()) {
-        img = itr.value();
+    if (_resourcrTable.contains(imgName)) {
+        img = _resourcrTable[imgName];
 #ifdef DEBUG
         cout << "Load from Resource Table.\n";
 #endif
     } else {
         img = loadFileImage(imgName);
-//        if (!img.isNull()) {
-            _resourcrTable[imgName] = img;
-//        }
+        _resourcrTable[imgName] = img;
     }
     return img;
 }
