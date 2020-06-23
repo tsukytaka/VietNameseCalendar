@@ -7,12 +7,15 @@ import VCalendar 1.0
 
 Calendar {
     id: calendar
-    width: parent.width
-    height: parent.height
-    frameVisible: true
+    anchors.fill: parent
+//    frameVisible: true
     focus: true
     style: calstyle
-    navigationBarVisible: false
+    navigationBarVisible: true
+
+    MonthViewVM {
+        id: monthViewVM
+    }
 
     onVisibleMonthChanged: {
 //            calendarManager.date = new Date(calendar.visibleYear, calendar.visibleMonth, 1)
@@ -30,7 +33,8 @@ Calendar {
     }
 
     Component.onCompleted: {
-
+        console.log("Material.primary = " + Material.primary)
+        console.log("Material.background = " + Material.background)
     }
 
     Component {
@@ -41,43 +45,60 @@ Calendar {
                 color: Material.background
             }
 
+            navigationBar: Rectangle {
+                id: navigation
+                height: 32
+                color: Material.background
+                Text {
+                    color: Material.foreground
+                    text: styleData.title
+                    anchors.centerIn: parent
+                    font.pixelSize: 18
+                }
+            }
+
+            dayOfWeekDelegate: Rectangle {
+                color: Material.background
+                height: 48
+                Label {
+                    text: control.locale.dayName(styleData.dayOfWeek, control.dayOfWeekFormat)
+                    anchors.centerIn: parent
+                    font.pixelSize: 18
+                    color: Material.foreground
+                }
+            }
+
             dayDelegate: Item {
-                id: thisItem
                 Rectangle {
                     anchors.fill: parent
-                    anchors.margins: 1
-                    border.width: 2
                     color: Material.background
 
                     Rectangle {
-                        id: selectedAreaDate
                         anchors.top: parent.top
                         anchors.topMargin: 5
                         anchors.left: parent.left
                         anchors.leftMargin: 5
-                        width: 32
-                        height: 32
+                        width: styleData.visibleMonth ? 24 : 16
+                        height: styleData.visibleMonth ? 24 : 16
                         radius: width*0.5
-                        color: styleData.today ? Material.primary : parent.color
+                        color: styleData.visibleMonth ? Material.primary : Material.background
 
                         Text {
                             id: dayDelegateText
                             text: styleData.date.getDate()
                             anchors.centerIn: parent
-                            font.pixelSize: 18
+                            font.pixelSize: styleData.visibleMonth ? 18 : 12
                             color: {
-                                return styleData.visibleMonth ? Material.foreground : Material.color(Material.foreground, Material.Shade100)
+                                return  Material.foreground
                             }
                         }
                     }
 
                     ListView {
-                        id: listEvent
 
                     }
 
                     Text {
-                        id: lunarDayDelegateText
                         text: {
                             var dateStr = "";
                             var lunarDate = LunarTools.convertSolar2Lunar(styleData.date, 7)
@@ -93,29 +114,16 @@ Calendar {
                         anchors.right: parent.right
                         anchors.rightMargin: 5
                         font.pixelSize: 12
-                        color: {
-                            return styleData.visibleMonth ? Material.foreground : Material.color(Material.foreground, Material.Shade100)
-                        }
+                        color: Material.foreground
                     }
                 }
 
             }
 
-            navigationBar: Rectangle {
-                id: navigation
-                height: 64
-                color: Material.background
-                Text {
-                    id: monthDelegateText
-                    text: styleData.title
-                    anchors.centerIn: parent
-                    font.pixelSize: 18
-                }
-            }
+
 
         }
     }
-
 }
 
 

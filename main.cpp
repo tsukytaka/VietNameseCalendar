@@ -14,6 +14,7 @@
 #include "globalvariable.h"
 #include "DatabaseManager/databasemanager.h"
 #include "CreateEventScreen/createeventscreenvm.h"
+#include "MonthScreen/monthviewvm.h"
 #include "imgprovider.h"
 #include "DatabaseManager/lunarcalendar.h"
 
@@ -28,6 +29,7 @@ int main(int argc, char *argv[])
     qRegisterMetaType<QLunarDate*>();
     qmlRegisterSingletonType<LunarTools>("VCalendar", 1, 0, "LunarTools", LunarTools::qobject_lunartools_provider);
     qmlRegisterType<CreateEventScreenVM>("VCalendar", 1, 0, "CreateEventScreenVM");
+    qmlRegisterType<MonthViewVM>("VCalendar", 1, 0, "MonthViewVM");
 
     GlobalVariable::getInstance()->setDataDir(QStandardPaths::writableLocation(QStandardPaths::DataLocation));
     QDir dir(GlobalVariable::getInstance()->getDataDir());

@@ -13,10 +13,11 @@ ApplicationWindow {
     visible: true
     width: 1280
     height: 720
-    flags: Qt.Window | Qt.FramelessWindowHint
+    flags: Qt.Window// | Qt.FramelessWindowHint
 
-//    Material.theme: Material.Dark
-    Material.primary: "#9FA8DA"
+    Material.theme: Material.Dark
+    Material.primary: Material.Cyan
+
 
     Column {
         anchors.fill: parent
@@ -45,12 +46,5 @@ ApplicationWindow {
                 closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
             }
         }
-    }
-
-
-
-    Component.onCompleted: {
-        console.log("Material.primary = " + Material.primary)
-        console.log("Material.background = " + Material.background)
     }
 }

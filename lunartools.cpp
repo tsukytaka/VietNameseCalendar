@@ -114,7 +114,7 @@ QLunarDate* LunarTools::convertSolar2Lunar(QDate date, qint32 timeZone)
     dayNumber = date.toJulianDay();
 //    qInfo() << "dayNumber = " << dayNumber;
     k = qint32((dayNumber - NEWMOON_IN_JAN_01_1990_JD) / AVG_NUMBER_DAY_IN_MONTH);
-    qInfo() << "k = " << k;
+//    qInfo() << "k = " << k;
     monthStart = getNewMoonDay(k+1, timeZone);
 
 //    qInfo() << "monthStart k+1 = " << monthStart;
@@ -135,10 +135,10 @@ QLunarDate* LunarTools::convertSolar2Lunar(QDate date, qint32 timeZone)
         b11 = getLunarMonth11(yy+1, timeZone);
     }
 
-    if (date.day() == 5) {
-        qInfo() << "a11 = " << a11;
-        qInfo() << "b11 = " << b11;
-    }
+//    if (date.day() == 5) {
+//        qInfo() << "a11 = " << a11;
+//        qInfo() << "b11 = " << b11;
+//    }
 
     lunarDay = qint32(dayNumber-monthStart+1);
     qint32 diff = qint32((monthStart - a11)/29);
