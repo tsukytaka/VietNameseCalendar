@@ -23,7 +23,7 @@ Rectangle {
             background: Image {
                 id: bgtnCancel
                 anchors.centerIn: parent
-                source: "image://ImgProvider/baseline_clear_black_24dp.png"
+                source: "image://ImgProvider/baseline_clear_black_48dp.png"
             }
 
 
@@ -45,21 +45,21 @@ Rectangle {
             Row {
                 spacing: 20
 
-                TextField {
+                TextField{
                     id: txtfStartDate
                     width: 120
                     height: 64
-                    // Click to select date here
-                    MouseArea {
-                        anchors.fill: parent
-                        onClicked: {
-//                            txtfStartDate.focus = true;
-                            onClicked: {
-//                                datePickerDlg.parent = txtfStartDate
-                                datePickerDlg.open()
-                            }
-                        }
-                    }
+//                    // Click to select date here
+//                    MouseArea {
+//                        anchors.fill: parent
+//                        onClicked: {
+////                            txtfStartDate.focus = true;
+//                            onClicked: {
+////                                datePickerDlg.parent = txtfStartDate
+//                                datePickerDlg.open()
+//                            }
+//                        }
+//                    }
                 }
 
                 TextField {
@@ -96,6 +96,7 @@ Rectangle {
                     width: 96
                     height: 48
                     visible: !vmObject.isAllDay
+
                 }
             }
 
@@ -135,13 +136,5 @@ Rectangle {
         }
 
 
-    }
-
-    DatePickerDialog {
-        id: datePickerDlg
-        x: (parent.width - width)/2
-        y: (parent.height - height)/2
-//        anchor.top: parent.bottom
-//        anchor.left: parent.left
     }
 }
