@@ -15,8 +15,6 @@ Rectangle {
 
         onClicked: {
             systemMenu.open()
-            console.log("Material.primary = " + Material.primary)
-            console.log("Material.background = " + Material.background)
         }
     }
 

@@ -45,21 +45,10 @@ Rectangle {
             Row {
                 spacing: 20
 
-                TextField{
+                DatePicker{
                     id: txtfStartDate
                     width: 120
                     height: 64
-//                    // Click to select date here
-//                    MouseArea {
-//                        anchors.fill: parent
-//                        onClicked: {
-////                            txtfStartDate.focus = true;
-//                            onClicked: {
-////                                datePickerDlg.parent = txtfStartDate
-//                                datePickerDlg.open()
-//                            }
-//                        }
-//                    }
                 }
 
                 TextField {
@@ -78,17 +67,17 @@ Rectangle {
                     text: vmObject.connectDateText
                 }
 
+                DatePicker{
+                    id: txtfEndDate
+                    width: 120
+                    height: 64
+                }
+
                 TextField {
                     id: txtfEndTime
                     width: 120
                     height: 64
                     visible: !vmObject.isAllDay
-                }
-
-                TextField {
-                    id: txtfEndDate
-                    width: 120
-                    height: 64
                 }
 
                 Button {

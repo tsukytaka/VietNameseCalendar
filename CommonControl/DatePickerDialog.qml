@@ -2,10 +2,11 @@ import QtQuick 2.0
 import QtQuick.Controls 2.1
 import Qt.labs.calendar 1.0
 import QtQuick.Layouts 1.12
+import QtQuick.Controls.Material 2.0
 
 Dialog {
     id: dateDialog
-    width: 240; height: 240
+    width: 260; height: 240
 
     ListView {
         id: listview
@@ -14,30 +15,46 @@ Dialog {
         anchors.fill: parent
         snapMode: ListView.SnapOneItem
         orientation: ListView.Horizontal
-//          highlightRangeMode: ListView.StrictlyEnforceRange
+//        highlightRangeMode: ListView.StrictlyEnforceRange
 
         model: CalendarModel {
-            from: new Date(2019, 0, 1)
-            to: new Date(2019, 11, 31)
+            from: new Date(2020, 0, 1)
+            to: new Date(2020, 11, 31)
         }
 
         delegate: GridLayout {
             columns: 1
 
+            Label {
+                width: parent.width
+                horizontalAlignment: Text.AlignHCenter
+                text: grid.title
+            }
+
             DayOfWeekRow {
                 locale: Qt.locale("en_US")
-//                  Layout.column: 0
                 Layout.fillWidth: true
+                delegate: Text {
+                    text: model.shortName
+                    color: Material.foreground
+                }
             }
 
             MonthGrid {
                 id: grid
                 month: model.month
-                year: 2019
+                year: 2020
                 locale: Qt.locale("en_US")
-
                 Layout.fillWidth: true
                 Layout.fillHeight: true
+
+                delegate: Text {
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
+                    opacity: model.month === grid.month ? 1 : 0.1
+                    text: model.day
+                    color: Material.foreground
+                }
             }
         }
 

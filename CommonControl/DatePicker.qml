@@ -16,8 +16,6 @@ TextField {
         id: datePickerDlg
         x: 0
         y: 0
-        width: 128
-        height: 128
     }
 
 }
