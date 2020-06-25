@@ -5,6 +5,7 @@ import QtQuick.Layouts 1.12
 import QtQuick.Controls.Material 2.0
 
 Dialog {
+    property var date : new Date()
     id: dateDialog
     width: 260; height: 240
 
@@ -48,12 +49,23 @@ Dialog {
                 Layout.fillWidth: true
                 Layout.fillHeight: true
 
-                delegate: Text {
-                    horizontalAlignment: Text.AlignHCenter
-                    verticalAlignment: Text.AlignVCenter
-                    opacity: model.month === grid.month ? 1 : 0.1
-                    text: model.day
-                    color: Material.foreground
+                delegate: Rectangle {
+                    color: model.date.toLocaleString(Qt.locale("en_US"),"dd.MM.yyyy") === dateDialog.date.toLocaleString(Qt.locale("en_US"),"dd.MM.yyyy") ? Material.primary : "transparent"
+                    width:24
+                    height: 24
+                    Text {
+                        anchors.fill: parent
+                        horizontalAlignment: Text.AlignHCenter
+                        verticalAlignment: Text.AlignVCenter
+                        opacity: model.month === grid.month ? 1 : 0.1
+                        text: model.day
+                        color: Material.foreground
+                    }
+
+                }
+
+                onClicked: {
+                    dateDialog.date = date
                 }
             }
         }
