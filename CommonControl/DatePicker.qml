@@ -4,10 +4,10 @@ import QtQuick.Controls.Material 2.0
 
 TextField {
     id: datePicker
+    text: datePickerDlg.selectedDate.toLocaleDateString(Locale.ShortFormat)
     MouseArea {
         anchors.fill: parent
         onClicked: {
-            console.log("test")
             datePickerDlg.open()
         }
     }
