@@ -1,7 +1,6 @@
 const { app } = require('electron')
 
 let windowProvider = null
-let menu = null
 
 const gotLock = app.requestSingleInstanceLock()
 
@@ -29,7 +28,6 @@ app.userAgentFallback = app.userAgentFallback = 'Mozilla/5.0 (Windows NT 10.0) A
 
 function createWindow() {
   initialize()
-
   if (windowProvider.getWindow() == null) {
     windowProvider.createMainWindow()
   } else {

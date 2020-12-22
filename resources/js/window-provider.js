@@ -11,11 +11,12 @@
 
   var createMainWindow = () => {
     let windowState = windowStateKeeper( { defaultWidth: 1400, defaultHeight: 1000 } )
-    let browser = new BrowserView( { webPreferences: { nodeIntegration: false } } )
+    let browser = new BrowserView({ webPreferences: { nodeIntegration: false } })
     let window = new BrowserWindow( {
       title: "Google Calendar", icon: path.join(__dirname, '../../build/icon.png'),
       x: windowState.x, y: windowState.y, width: windowState.width, height: windowState.height,
     } )
+    window.setMenu(null)
 
     window.setBrowserView(browser)
     configurator.prepare(window, browser)
