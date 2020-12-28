@@ -10,9 +10,9 @@ if (!gotLock) {
   return;
 }
 
-// app.on('second-instance', () => {
-//   windowProvider.getWindow().show()
-// })
+app.on('second-instance', () => {
+  windowProvider.getWindow().show()
+})
 
 /*non-MacOS*/
 app.on('ready', createWindow)
@@ -46,10 +46,10 @@ function createWindow() {
 
 function initialize() {
   if (menu == null) {
-    menu = require('./resources/js/menu.js')
+    menu = require('./resources/js/UI/menu.js')
   }
 
   if (windowProvider == null) {
-    windowProvider = require('./resources/js/window-provider.js')
+    windowProvider = require('./resources/js/UI/window-provider.js')
   }
 }

@@ -13,7 +13,7 @@
    let windowState = windowStateKeeper( { defaultWidth: 1400, defaultHeight: 1000 } )
     let browser = new BrowserView({ webPreferences: { nodeIntegration: false } })
     let window = new BrowserWindow( {
-      title: "Google Calendar", icon: path.join(__dirname, '../../build/icon.png'),
+      title: "Google Calendar", icon: path.join(__dirname, '../../images/icon.png'),
       x: windowState.x, y: windowState.y, width: windowState.width, height: windowState.height,
     } )
 

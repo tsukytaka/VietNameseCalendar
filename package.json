@@ -54,6 +54,8 @@
     "electron-notarize": "^0.1.1"
   },
   "dependencies": {
-    "electron-window-state": "5.0.3"
+    "electron-window-state": "5.0.3",
+    "knex": "^0.21.15",
+    "sqlite3": "^5.0.0"
   }
 }
