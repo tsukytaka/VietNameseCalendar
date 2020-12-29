@@ -1,4 +1,4 @@
-(function() {
+(function () {
   const { BrowserWindow, BrowserView, app } = require('electron')
 
   const windowStateKeeper = require('electron-window-state')
@@ -10,12 +10,12 @@
   let browserView = null
 
   var createMainWindow = () => {
-   let windowState = windowStateKeeper( { defaultWidth: 1400, defaultHeight: 1000 } )
+    let windowState = windowStateKeeper({ defaultWidth: 1400, defaultHeight: 1000 })
     let browser = new BrowserView({ webPreferences: { nodeIntegration: false } })
-    let window = new BrowserWindow( {
+    let window = new BrowserWindow({
       title: "Google Calendar", icon: path.join(__dirname, '../../images/icon.png'),
       x: windowState.x, y: windowState.y, width: windowState.width, height: windowState.height,
-    } )
+    })
 
     window.setBrowserView(browser)
     configurator.prepare(window, browser)

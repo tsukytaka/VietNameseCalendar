@@ -1,11 +1,10 @@
-(function() {
-    const path = require('path');
-    const knex = require('knex')({
+(function () {
+  const path = require('path');
+  const knex = require('knex')({
     client: "sqlite3",
-        connection: {
-            filename: path.join(__dirname, 'database.sqlite')
-        }
-    });
-
+    connection: {
+      filename: path.join(__dirname, 'database.sqlite')
+    }
+  });
 }())
 

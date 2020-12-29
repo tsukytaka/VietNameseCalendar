@@ -1,8 +1,8 @@
-(function() {
+(function () {
 
   var prepare = (window, browser) => {
     setBounds(window, browser)
-    browser.setAutoResize( { width: true, height: true } )
+    browser.setAutoResize({ width: true, height: true })
     browser.webContents.userAgent = 'Mozilla/5.0 (Windows NT 10.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.135 Safari/537.36 Edge/12.10136'
     browser.webContents.loadURL('https://calendar.google.com/')
     browser.webContents.on("new-window", (event, url) => {
@@ -16,10 +16,10 @@
   }
 
   var setBounds = (window, browser) => {
-    browser.setBounds({ 
-      x: 0, 
-      y: getTitleBarOffset(), 
-      width: window.getBounds().width, 
+    browser.setBounds({
+      x: 0,
+      y: getTitleBarOffset(),
+      width: window.getBounds().width,
       height: window.getBounds().height - getTitleBarSize(window)
     });
   }
